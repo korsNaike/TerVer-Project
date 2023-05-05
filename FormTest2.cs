@@ -89,6 +89,12 @@ namespace TerVer_project
             {
                 allTextTaskList += theoryTaskList[i] + "\n\n";
             }
+            
+            for (int i = 0; i < answersList.Count; i++)
+            {
+                allTextTaskList += answersList[i] + "\n";
+            }
+
             textForTest.Text = allTextTaskList;
 
         }
@@ -108,54 +114,15 @@ namespace TerVer_project
         private void getTheoryTasksInList(TheoryTest theoryTest,int cntTheoryTasks=6)
         {
             this.theoryTaskList = new List<string>();
+            this.answersList = new List<string>();
+
             for (int i = 0; i < cntTheoryTasks; i++)
             {
-
-                theoryTaskList.Add(getNewTheoryTaskString(theoryTest, i));
-
+                int randIndexForTask = Task.rnd.Next(0, theoryTest.theoryTasks.Count);
+                theoryTaskList.Add(theoryTest.getNewTheoryTaskString(i,randIndexForTask));
+                answersList.Add(theoryTest.getNewTheoryAnswerString(i, randIndexForTask));
+               theoryTest.theoryTasks.RemoveAt(randIndexForTask);
             }
-        }
-
-        private static string getNewTheoryTaskString(TheoryTest theoryTest,int index)
-        {
-            string newTheoryTask = "";
-
-            int randIndexForTask = Task.rnd.Next(0, theoryTest.theoryTasks.Count);
-
-            TheoryTask task = theoryTest.theoryTasks[randIndexForTask];
-            newTheoryTask += getQuestionTheoryTaskString(task,index);
-
-            const int allAnswersCnt = 4;
-
-            for (int j = 0; j < allAnswersCnt; j++)
-            {
-                newTheoryTask+=getAnswerOptionTheoryTaskString(task, j);
-            }
-
-            theoryTest.theoryTasks.RemoveAt(randIndexForTask);
-
-
-            return newTheoryTask;
-        }
-
-        private static string getQuestionTheoryTaskString(TheoryTask task,int index)
-        {
-            return (index + 1).ToString() + "." + task.question + "\n";
-        }
-
-        private static string getAnswerOptionTheoryTaskString(TheoryTask task,int index,int allAnswersCnt=4)
-        {
-            string newTheoryTask= "";
-            int rndIndexForAnswer = Task.rnd.Next(0, task.all_answers.Count);
-            newTheoryTask += Task.letterByInd(index, true) + task.all_answers[rndIndexForAnswer];
-
-            if (index + 1 == allAnswersCnt) newTheoryTask += ".";
-            else newTheoryTask += ";";
-
-            task.all_answers.RemoveAt(rndIndexForAnswer);
-            newTheoryTask += "\n";
-
-            return newTheoryTask;
         }
 
         private void buttonGenerateFull_Click(object sender, EventArgs e)
