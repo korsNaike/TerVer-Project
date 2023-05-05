@@ -10,6 +10,8 @@ namespace TerVer_project
     {
         public string text;
 
+        public static Random rnd = new Random();
+
         public Task()
         {
 
@@ -21,7 +23,7 @@ namespace TerVer_project
             return new List<string>(splittedText);
         }
 
-        static protected string letterByInd(int i,bool upperCase=false)
+        static public string letterByInd(int i,bool upperCase=false)
         {
             if (!upperCase)
             {
@@ -60,7 +62,7 @@ namespace TerVer_project
 
         private const int kolTotalComb = 36;
 
-        private Random rnd = new Random();
+        
 
         public string endTextOf;
         public Task1(string textTask)

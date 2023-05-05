@@ -12,8 +12,12 @@ using System.Windows.Forms;
 
 namespace TerVer_project
 {
+
+
+
     public partial class FormTest2 : Form
     {
+
         public FormTest2()
         {
             InitializeComponent();
@@ -75,19 +79,99 @@ namespace TerVer_project
             practTaskList.Add(checkBoxTask13.Checked);
 
 
+            TheoryTest theoryTest = getTheoryTestFromJson();
+
+            this.getTheoryTasksInList(theoryTest,countOfTheoryTasks);
+
+
+            string allTextTaskList = "";
+            for (int i = 0; i < theoryTaskList.Count; i++)
+            {
+                allTextTaskList += theoryTaskList[i] + "\n\n";
+            }
+            textForTest.Text = allTextTaskList;
+
+        }
+
+        private static TheoryTest getTheoryTestFromJson()
+        {
             string fileName = "TheoryTerVer.json";
             string jsonString = File.ReadAllText(fileName);
-            TheoryTest theoryTest = JsonSerializer.Deserialize<TheoryTest>(jsonString);
+
+            return JsonSerializer.Deserialize<TheoryTest>(jsonString)!;
+        }
+
+
+        private List<string> answersList;
+        private List<string> theoryTaskList;
+
+        private void getTheoryTasksInList(TheoryTest theoryTest,int cntTheoryTasks=6)
+        {
+            this.theoryTaskList = new List<string>();
+            for (int i = 0; i < cntTheoryTasks; i++)
+            {
+
+                theoryTaskList.Add(getNewTheoryTaskString(theoryTest, i));
+
+            }
+        }
+
+        private static string getNewTheoryTaskString(TheoryTest theoryTest,int index)
+        {
+            string newTheoryTask = "";
+
+            int randIndexForTask = Task.rnd.Next(0, theoryTest.theoryTasks.Count);
+
+            TheoryTask task = theoryTest.theoryTasks[randIndexForTask];
+            newTheoryTask += getQuestionTheoryTaskString(task,index);
+
+            const int allAnswersCnt = 4;
+
+            for (int j = 0; j < allAnswersCnt; j++)
+            {
+                newTheoryTask+=getAnswerOptionTheoryTaskString(task, j);
+            }
+
+            theoryTest.theoryTasks.RemoveAt(randIndexForTask);
+
+
+            return newTheoryTask;
+        }
+
+        private static string getQuestionTheoryTaskString(TheoryTask task,int index)
+        {
+            return (index + 1).ToString() + "." + task.question + "\n";
+        }
+
+        private static string getAnswerOptionTheoryTaskString(TheoryTask task,int index,int allAnswersCnt=4)
+        {
+            string newTheoryTask= "";
+            int rndIndexForAnswer = Task.rnd.Next(0, task.all_answers.Count);
+            newTheoryTask += Task.letterByInd(index, true) + task.all_answers[rndIndexForAnswer];
+
+            if (index + 1 == allAnswersCnt) newTheoryTask += ".";
+            else newTheoryTask += ";";
+
+            task.all_answers.RemoveAt(rndIndexForAnswer);
+            newTheoryTask += "\n";
+
+            return newTheoryTask;
         }
 
         private void buttonGenerateFull_Click(object sender, EventArgs e)
         {
-            string fileName = "TheoryTerVer.json";
-            string jsonString = File.ReadAllText(fileName);
             
-            TheoryTest theoryTest = JsonSerializer.Deserialize<TheoryTest>(jsonString)!;
+            TheoryTest theoryTest = getTheoryTestFromJson();
 
-            checkBox1.Text = theoryTest.theoryTasks[0].question;
+            this.getTheoryTasksInList(theoryTest);
+            
+
+            string allTextTaskList = "";
+            for (int i = 0; i < theoryTaskList.Count; i++)
+            {
+                allTextTaskList += theoryTaskList[i] + "\n\n";
+            }
+            textForTest.Text = allTextTaskList;
         }
     }
 }

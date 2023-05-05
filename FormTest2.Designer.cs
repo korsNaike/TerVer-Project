@@ -67,7 +67,7 @@ namespace TerVer_project
             this.label2 = new System.Windows.Forms.Label();
             this.numericKolVariants = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textForTest = new System.Windows.Forms.Label();
             this.groupBoxZadaniya.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTheoryTasks)).BeginInit();
             this.groupBoxGenerate.SuspendLayout();
@@ -460,6 +460,7 @@ namespace TerVer_project
             this.checkBoxTask1.Name = "checkBoxTask1";
             this.checkBoxTask1.Size = new System.Drawing.Size(254, 32);
             this.checkBoxTask1.TabIndex = 3;
+            this.checkBoxTask1.Tag = "";
             this.checkBoxTask1.Text = "Задание 1 - игральная кость";
             this.checkBoxTask1.UseVisualStyleBackColor = true;
             // 
@@ -469,6 +470,11 @@ namespace TerVer_project
             this.numericTheoryTasks.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericTheoryTasks.Location = new System.Drawing.Point(6, 136);
             this.numericTheoryTasks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.numericTheoryTasks.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
             this.numericTheoryTasks.Name = "numericTheoryTasks";
             this.numericTheoryTasks.Size = new System.Drawing.Size(49, 35);
             this.numericTheoryTasks.TabIndex = 2;
@@ -577,23 +583,21 @@ namespace TerVer_project
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
-            // checkBox1
+            // textForTest
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(517, 605);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(101, 24);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.textForTest.AutoSize = true;
+            this.textForTest.Location = new System.Drawing.Point(602, 389);
+            this.textForTest.Name = "textForTest";
+            this.textForTest.Size = new System.Drawing.Size(50, 20);
+            this.textForTest.TabIndex = 2;
+            this.textForTest.Text = "label3";
             // 
             // FormTest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 891);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.textForTest);
             this.Controls.Add(this.groupBoxGenerate);
             this.Controls.Add(this.groupBoxZadaniya);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -649,7 +653,7 @@ namespace TerVer_project
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericKolVariants;
         private System.Windows.Forms.Button buttonGenerateFull;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label textForTest;
     }
 }
 

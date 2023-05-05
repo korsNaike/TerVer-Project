@@ -16,7 +16,9 @@ namespace TerVer_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormTest2());
+            FormTest2 formTest2 = new FormTest2();
+            Application.Run(formTest2);
         }
+
     }
 }

@@ -17,7 +17,7 @@ namespace TerVer_project
     {
         public string question { get; set; }
         public string correct_answer { get; set; }
-        public List<string> other_answers { get; set; }
+        public List<string> all_answers { get; set; }
 
 
     }
