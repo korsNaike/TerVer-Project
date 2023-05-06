@@ -104,6 +104,8 @@ namespace TerVer_project
 
                 this.getTheoryTasksInList(theoryTest, countOfTheoryTasks);
                 this.getTaskAndAnswerListInVariant();
+
+                if (practTaskList[0]) createTask1();
             }
 
 
@@ -164,6 +166,9 @@ namespace TerVer_project
 
             this.getTheoryTasksInList(theoryTest);
                 this.getTaskAndAnswerListInVariant();
+
+                createTask1();
+                
             }
 
 
@@ -174,6 +179,13 @@ namespace TerVer_project
             this.workWithAnswersWordFile(countVariants);
 
             
+        }
+
+        private void createTask1()
+        {
+            Task1 task1 = new Task1();
+            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task1.fullTextOfTask);
+            answersList.Add((answersList.Count + 1).ToString() + ".\t" + task1.outCorrectAnswer);
         }
 
         private void InitialWorkWithWord()

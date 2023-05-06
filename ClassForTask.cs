@@ -56,17 +56,15 @@ namespace TerVer_project
     {
         public List<string> textList;
         protected List<int> values;
-        public string correct_answer;
+        private string correct_answer;
         public int kolFavComb;
         public List<string> answers;
 
         private const int kolTotalComb = 36;
 
-        
-
-        public string endTextOf;
-        public Task1(string textTask)
+        public Task1()
         {
+            string textTask = "Игральная кость бросается два раза. Тогда вероятность того, что сумма выпавших очков – _, а разность – _, равна:";
             this.textList = splitText(textTask);
             this.values = new List<int>();
             this.answers = new List<string>();
@@ -85,6 +83,7 @@ namespace TerVer_project
             this.correct_answer = convertToFraction(kolFavComb, kolTotalComb);
 
             this.creatingAnswers();
+            this.remixAnswers();
         }
 
         private void creatingAnswers()
@@ -122,8 +121,6 @@ namespace TerVer_project
 
 
         }
-
-
 
 
         private static int CalcCorrectAnswer(int sum, int razn)
@@ -172,6 +169,15 @@ namespace TerVer_project
             return (fav.ToString() + "/" + tot.ToString());
         }
 
+        public string fullTextOfTask
+        {
+            get
+            {
+                return this.outText+ "\v"+this.createAnswerString();
+
+            }
+        }
+
         public string outText
         {
             get
@@ -194,28 +200,37 @@ namespace TerVer_project
         {
             get
             {
-                return this.correct_answer;
+                return letterByInd(this.answers.IndexOf(this.correct_answer))+" "+this.correct_answer;
             }
         }
 
-        public string outAnswersString
+        private void remixAnswers()
         {
-            get
+            List<string> copyAnswers = new List<string>(this.answers);
+            List<string> mixAnswers = new List<string>();
+
+            for (int i = 0; i < this.answers.Count; i++)
             {
+                int randInd = rnd.Next(0, copyAnswers.Count);
+                mixAnswers.Add(copyAnswers[randInd]);
+                copyAnswers.RemoveAt(randInd);
+            }
+            
+            this.answers = new List<string>(mixAnswers);
+        }
+
+        private string createAnswerString()
+        {
                 string answersString = "";
-                List<string> copyAnswers = new List<string>(this.answers);
-                for (int i = 0; i < 4; i++)
+                
+                for (int i = 0; i < this.answers.Count; i++)
                 {
-                    int randInd = rnd.Next(0, copyAnswers.Count);
-                    answersString += letterByInd(i) + copyAnswers[randInd];
+                    answersString += letterByInd(i) +" " +this.answers[i];
                     if (i == 3) answersString += ".";
                     else answersString += ";\t";
-
-                    copyAnswers.RemoveAt(randInd);
                 }
 
                 return answersString;
-            }
         }
 
         
