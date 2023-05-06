@@ -34,7 +34,7 @@ namespace TerVer_project
         public string getNewTheoryAnswerString(int index,int randIndexForTask)
         {
             TheoryTask task = this.theoryTasks[randIndexForTask];
-            return (index+1).ToString() + ".  " + task.true_answer;
+            return (index+1).ToString() + ".\t" + task.true_answer;
         }
 
     }
@@ -56,7 +56,7 @@ namespace TerVer_project
         {
             string newTheoryTask = "";
             int rndIndexForAnswer = rnd.Next(0, this.all_answers.Count);
-            newTheoryTask += letterByInd(index, true) + this.all_answers[rndIndexForAnswer];
+            newTheoryTask += letterByInd(index, true) +" "+ this.all_answers[rndIndexForAnswer];
 
             if (this.all_answers[rndIndexForAnswer] == correct_answer)
             {

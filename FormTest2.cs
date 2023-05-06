@@ -93,23 +93,28 @@ namespace TerVer_project
             practTaskList.Add(checkBoxTask13.Checked);
 
 
-            TheoryTest theoryTest = getTheoryTestFromJson();
+            variantsTasksList = new List<List<string>>();
+            variantsAnswersList = new List<List<string>>();
 
-            this.getTheoryTasksInList(theoryTest,countOfTheoryTasks);
+            int countVariants = Convert.ToInt32(numericKolVariants.Value);
 
-
-            string allTextTaskList = "";
-            for (int i = 0; i < theoryTaskList.Count; i++)
+            for (int i = 0; i < countVariants; i++)
             {
-                allTextTaskList += theoryTaskList[i] + "\n\n";
-            }
-            
-            for (int i = 0; i < answersList.Count; i++)
-            {
-                allTextTaskList += answersList[i] + "\n";
+                TheoryTest theoryTest = getTheoryTestFromJson();
+
+                this.getTheoryTasksInList(theoryTest, countOfTheoryTasks);
+                this.getTaskAndAnswerListInVariant();
             }
 
-            textForTest.Text = allTextTaskList;
+
+
+
+            this.InitialWorkWithWord();
+            this.workWithTasksWordFile(countVariants);
+            this.workWithAnswersWordFile(countVariants);
+
+
+
 
         }
 
@@ -162,17 +167,13 @@ namespace TerVer_project
             }
 
 
-            string allTextTaskList = "";
-            for (int i = 0; i < theoryTaskList.Count; i++)
-            {
-                allTextTaskList += theoryTaskList[i] + "\n\n";
-            }
+            
 
             this.InitialWorkWithWord();
             this.workWithTasksWordFile(countVariants);
             this.workWithAnswersWordFile(countVariants);
 
-            textForTest.Text = allTextTaskList;
+            
         }
 
         private void InitialWorkWithWord()
