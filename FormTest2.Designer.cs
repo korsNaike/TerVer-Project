@@ -300,6 +300,7 @@ namespace TerVer_project
             // checkBoxTask13
             // 
             this.checkBoxTask13.AutoSize = true;
+            this.checkBoxTask13.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask13.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask13.Location = new System.Drawing.Point(6, 774);
             this.checkBoxTask13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -312,6 +313,7 @@ namespace TerVer_project
             // checkBoxTask12
             // 
             this.checkBoxTask12.AutoSize = true;
+            this.checkBoxTask12.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask12.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask12.Location = new System.Drawing.Point(6, 725);
             this.checkBoxTask12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -324,6 +326,7 @@ namespace TerVer_project
             // checkBoxTask11
             // 
             this.checkBoxTask11.AutoSize = true;
+            this.checkBoxTask11.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask11.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask11.Location = new System.Drawing.Point(6, 676);
             this.checkBoxTask11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -336,6 +339,7 @@ namespace TerVer_project
             // checkBoxTask10
             // 
             this.checkBoxTask10.AutoSize = true;
+            this.checkBoxTask10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask10.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask10.Location = new System.Drawing.Point(6, 628);
             this.checkBoxTask10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -348,6 +352,7 @@ namespace TerVer_project
             // checkBoxTask9
             // 
             this.checkBoxTask9.AutoSize = true;
+            this.checkBoxTask9.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask9.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask9.Location = new System.Drawing.Point(6, 579);
             this.checkBoxTask9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -360,6 +365,7 @@ namespace TerVer_project
             // checkBoxTask8
             // 
             this.checkBoxTask8.AutoSize = true;
+            this.checkBoxTask8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask8.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask8.Location = new System.Drawing.Point(6, 530);
             this.checkBoxTask8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -372,6 +378,7 @@ namespace TerVer_project
             // checkBoxTask7
             // 
             this.checkBoxTask7.AutoSize = true;
+            this.checkBoxTask7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask7.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask7.Location = new System.Drawing.Point(6, 481);
             this.checkBoxTask7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -384,6 +391,7 @@ namespace TerVer_project
             // checkBoxTask6
             // 
             this.checkBoxTask6.AutoSize = true;
+            this.checkBoxTask6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask6.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask6.Location = new System.Drawing.Point(6, 432);
             this.checkBoxTask6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -396,6 +404,7 @@ namespace TerVer_project
             // checkBoxTask5
             // 
             this.checkBoxTask5.AutoSize = true;
+            this.checkBoxTask5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask5.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask5.Location = new System.Drawing.Point(6, 384);
             this.checkBoxTask5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -408,6 +417,7 @@ namespace TerVer_project
             // checkBoxTask4
             // 
             this.checkBoxTask4.AutoSize = true;
+            this.checkBoxTask4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask4.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask4.Location = new System.Drawing.Point(6, 335);
             this.checkBoxTask4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -420,6 +430,7 @@ namespace TerVer_project
             // checkBoxTask3
             // 
             this.checkBoxTask3.AutoSize = true;
+            this.checkBoxTask3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask3.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask3.Location = new System.Drawing.Point(6, 286);
             this.checkBoxTask3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -432,6 +443,7 @@ namespace TerVer_project
             // checkBoxTask2
             // 
             this.checkBoxTask2.AutoSize = true;
+            this.checkBoxTask2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask2.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask2.Location = new System.Drawing.Point(6, 238);
             this.checkBoxTask2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -454,6 +466,7 @@ namespace TerVer_project
             // checkBoxTask1
             // 
             this.checkBoxTask1.AutoSize = true;
+            this.checkBoxTask1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBoxTask1.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxTask1.Location = new System.Drawing.Point(6, 189);
             this.checkBoxTask1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -565,10 +578,20 @@ namespace TerVer_project
             this.numericKolVariants.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numericKolVariants.Location = new System.Drawing.Point(217, 199);
             this.numericKolVariants.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.numericKolVariants.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericKolVariants.Name = "numericKolVariants";
             this.numericKolVariants.Size = new System.Drawing.Size(49, 35);
             this.numericKolVariants.TabIndex = 30;
             this.numericKolVariants.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericKolVariants.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // buttonGenerate
             // 

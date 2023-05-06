@@ -49,7 +49,7 @@ namespace TerVer_project
 
         public string getQuestionTheoryTaskString(int index)
         {
-            return (index + 1).ToString() + "." + this.question + "\n";
+            return (index + 1).ToString() + "." + this.question + "\v";
         }
 
         public string getAnswerOptionTheoryTaskString(int index, int allAnswersCnt = 4)
@@ -69,7 +69,7 @@ namespace TerVer_project
             
 
             this.all_answers.RemoveAt(rndIndexForAnswer);
-            newTheoryTask += "\n";
+            newTheoryTask += "\v";
 
             return newTheoryTask;
         }
