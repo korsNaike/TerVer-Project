@@ -626,6 +626,7 @@ namespace TerVer_project
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormTest2";
             this.Text = "Тест№2";
+            this.Load += new System.EventHandler(this.FormTest2_Load);
             this.groupBoxZadaniya.ResumeLayout(false);
             this.groupBoxZadaniya.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTheoryTasks)).EndInit();

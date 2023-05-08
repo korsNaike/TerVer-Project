@@ -71,6 +71,7 @@ namespace TerVer_project
 
         private Word.Style wordstyleForTitle;
         private Word.Style wordstyleForName;
+        private Word.Style wordstyleForStudent;
         private Word.Style wordstyleForTask;
 
         private void buttonGenerate_Click(object sender, EventArgs e)
@@ -171,14 +172,34 @@ namespace TerVer_project
                 
             }
 
-
             
+
+
 
             this.InitialWorkWithWord();
             this.workWithTasksWordFile(countVariants);
             this.workWithAnswersWordFile(countVariants);
 
+            List<string> formuls = new List<string>();
+            formuls.Add("f(x) = ((1)/(5\u221a(2\u03C0)))e^((-(x+6)^2)/(50))");
+            formuls.Add("ㅤㅤㅤ \u23A7 0 \t при x \u2264 0" + "\v" +
+                        "f(x) =\u23A8 (3x^2)/125 \t при 0 < x \u2264 5" + "\v" +
+                        "ㅤㅤㅤ \u23A9 0 \t при x > 5");
+            formuls.Add("\t(4-3\u221a3)/(4\u03C0)");
+
             
+            for (int i = 0; i < 3; i++)
+            {
+                object oMissing = System.Reflection.Missing.Value;
+                worddocumentAnswers.Paragraphs.Add(ref oMissing);
+                wordparagraph = wordparagraphs[wordparagraphs.Count];
+
+                wordparagraph.Range.Text = formuls[i];
+
+                worddocumentAnswers.OMaths.Add(wordparagraph.Range).OMaths.BuildUp();
+            }
+            
+
         }
 
         private void createTask1()
@@ -217,6 +238,11 @@ namespace TerVer_project
                 numOfParagraph++;
                 OutputVariantInWord(i + 1, numOfParagraph);
 
+                object oMiss = System.Reflection.Missing.Value;
+                worddocument.Paragraphs.Add(ref oMiss);
+                numOfParagraph++;
+                OutputFieldForStudentInWord(numOfParagraph);
+
                 for (int j = 0; j < theoryTaskList.Count; j++)
                 {
                     object oMissing = System.Reflection.Missing.Value;
@@ -228,6 +254,8 @@ namespace TerVer_project
                 numOfParagraph++;
                 CreatePageBreak(numOfParagraph);
             }
+
+            
         }
 
         private void workWithAnswersWordFile(int countVariants)
@@ -353,6 +381,13 @@ namespace TerVer_project
             wordstyleForName.Font.Bold = 1;
             wordstyleForName.Font.Italic = 0;
 
+            wordstyleForStudent = worddocument.Styles.Add("myStyleForStudent", ref patternstyle);
+
+            wordstyleForStudent.Font.Size = 14;
+            wordstyleForStudent.Font.Name = "Times New Roman";
+            wordstyleForStudent.Font.Bold = 0;
+            wordstyleForStudent.Font.Italic = 1;
+
             wordstyleForTask = worddocument.Styles.Add("styleForTask", ref patternstyle);
             wordstyleForTask.Font.Size = 12;
             wordstyleForTask.Font.Name = "Times New Roman";
@@ -420,6 +455,14 @@ namespace TerVer_project
             
         }
 
+        private void OutputFieldForStudentInWord(int indexOfParagraph)
+        {
+            wordparagraph = wordparagraphs[indexOfParagraph];
+            object studentWordStyle = wordstyleForStudent;
+            wordparagraph.Range.Text = "Фамилия ________________________ Группа __________";
+            wordparagraph.Range.set_Style(ref studentWordStyle);
+        }
+
         private void outputTaskInWord(string task,int indexOfParagraph)
         {
             wordparagraph = wordparagraphs[indexOfParagraph];
@@ -436,6 +479,11 @@ namespace TerVer_project
             wordapp.Quit(ref saveChanges,
                          ref originalFormat, ref routeDocument);
             wordapp = null;
+        }
+
+        private void FormTest2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
