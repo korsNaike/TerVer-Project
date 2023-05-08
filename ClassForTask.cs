@@ -12,9 +12,74 @@ namespace TerVer_project
 
         public static Random rnd = new Random();
 
-        public Task()
-        {
+        protected List<object> values=new List<object>();
+        public List<string> textList;
+        public List<string> answers;
+        protected string correct_answer;
 
+        public string outCorrectAnswer
+        {
+            get
+            {
+                return letterByInd(this.answers.IndexOf(this.correct_answer)) + " " + this.correct_answer;
+            }
+        }
+
+        public string fullTextOfTask
+        {
+            get
+            {
+                return this.outText + "\v" + this.createAnswerString();
+
+            }
+        }
+
+        public string outText
+        {
+            get
+            {
+                    string t = "";
+                    for (int i = 0; i < this.textList.Count; i++)
+                    {
+                        t += this.textList[i];
+                        if (i < this.values.Count)
+                        {
+                            t += " " + this.values[i].ToString();
+                        }
+                    }
+
+                    return t;
+                }
+        }
+
+        protected void remixAnswers()
+        {
+            List<string> copyAnswers = new List<string>(this.answers);
+            List<string> mixAnswers = new List<string>();
+
+            for (int i = 0; i < this.answers.Count; i++)
+            {
+                int randInd = rnd.Next(0, copyAnswers.Count);
+                mixAnswers.Add(copyAnswers[randInd]);
+                copyAnswers.RemoveAt(randInd);
+            }
+
+            this.answers = new List<string>(mixAnswers);
+
+        }
+
+        protected string createAnswerString()
+        {
+            string answersString = "";
+
+            for (int i = 0; i < this.answers.Count; i++)
+            {
+                answersString += letterByInd(i) + " " + this.answers[i];
+                if (i == 3) answersString += ".";
+                else answersString += ";\t";
+            }
+
+            return answersString;
         }
 
         static protected List<string> splitText(string text)
@@ -54,11 +119,9 @@ namespace TerVer_project
 
     class Task1 : Task
     {
-        public List<string> textList;
-        protected List<int> values;
-        private string correct_answer;
+        
         public int kolFavComb;
-        public List<string> answers;
+        
 
         private const int kolTotalComb = 36;
 
@@ -66,19 +129,19 @@ namespace TerVer_project
         {
             string textTask = "Игральная кость бросается два раза. Тогда вероятность того, что сумма выпавших очков – _, а разность – _, равна:";
             this.textList = splitText(textTask);
-            this.values = new List<int>();
+            this.values = new List<object>();
             this.answers = new List<string>();
 
             this.values.Add(rnd.Next(2, 12));
             this.values.Add(rnd.Next(0, 5));
 
 
-            this.kolFavComb = CalcCorrectAnswer(this.values[0], this.values[1]);
+            this.kolFavComb = CalcCorrectAnswer(Convert.ToInt32(this.values[0]), Convert.ToInt32(this.values[1]));
             while (this.kolFavComb == 0)
             {
                 this.values[0] = rnd.Next(3, 11);
                 this.values[1] = rnd.Next(1, 5);
-                this.kolFavComb = CalcCorrectAnswer(this.values[0], this.values[1]);
+                this.kolFavComb = CalcCorrectAnswer(Convert.ToInt32(this.values[0]), Convert.ToInt32(this.values[1]));
             }
             this.correct_answer = convertToFraction(kolFavComb, kolTotalComb);
 
@@ -167,72 +230,6 @@ namespace TerVer_project
             tot /= nod;
 
             return (fav.ToString() + "/" + tot.ToString());
-        }
-
-        public string fullTextOfTask
-        {
-            get
-            {
-                return this.outText+ "\v"+this.createAnswerString();
-
-            }
-        }
-
-        public string outText
-        {
-            get
-            {
-                string t = "";
-                for (int i = 0; i < this.textList.Count; i++)
-                {
-                    t += this.textList[i];
-                    if (i < this.values.Count)
-                    {
-                        t += " " + this.values[i];
-                    }
-                }
-
-                return t;
-            }
-        }
-
-        public string outCorrectAnswer
-        {
-            get
-            {
-                return letterByInd(this.answers.IndexOf(this.correct_answer))+" "+this.correct_answer;
-            }
-        }
-
-        private void remixAnswers()
-        {
-            List<string> copyAnswers = new List<string>(this.answers);
-            List<string> mixAnswers = new List<string>();
-
-            for (int i = 0; i < this.answers.Count; i++)
-            {
-                int randInd = rnd.Next(0, copyAnswers.Count);
-                mixAnswers.Add(copyAnswers[randInd]);
-                copyAnswers.RemoveAt(randInd);
-            }
-            
-            this.answers = new List<string>(mixAnswers);
-        }
-
-        private string createAnswerString()
-        {
-                string answersString = "";
-                
-                for (int i = 0; i < this.answers.Count; i++)
-                {
-                    answersString += letterByInd(i) +" " +this.answers[i];
-                    if (i == 3) answersString += ".";
-                    else answersString += ";\t";
-                }
-
-                return answersString;
-        }
-
-        
+        }   
     }
 }
