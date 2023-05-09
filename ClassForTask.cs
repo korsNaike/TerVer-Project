@@ -113,6 +113,29 @@ namespace TerVer_project
 
             return "нет такой буквы";
         }
+
+        protected static int findNOD(int fav, int tot)
+        {
+            int m = fav;
+            int n = tot;
+            int kol = 0;
+            while (m != n)
+            {
+                if (m > n)
+                {
+                    m = m - n;
+                }
+                else
+                {
+                    n = n - m;
+                }
+
+                if (kol > 100) return 1;
+                kol++;
+            }
+
+            return n;
+        }
     }
 
    
@@ -206,30 +229,130 @@ namespace TerVer_project
 
         private static string convertToFraction(int fav, int tot)
         {
-            int nod;
-            int m = fav;
-            int n = tot;
-            int kol = 0;
-            while (m != n)
-            {
-                if (m > n)
-                {
-                    m = m - n;
-                }
-                else
-                {
-                    n = n - m;
-                }
-
-                if (kol > 100) return (fav.ToString() + "/" + tot.ToString());
-                kol++;
-            }
-
-            nod = n;
+            int nod = findNOD(fav, tot);
             fav /= nod;
             tot /= nod;
 
             return (fav.ToString() + "/" + tot.ToString());
         }   
+    }
+
+    class Task2 :Task 
+    {
+        public Task2()
+        {
+            string textTask = "Внутрь круга радиуса _ наудачу брошена точка. Тогда вероятность того, что точка окажется _ вписанного в круг равностороннего треугольника, равна:";
+            this.textList = splitText(textTask);
+            this.values = new List<object>();
+            this.answers = new List<string>();
+
+            this.values.Add(rnd.Next(3,8));
+            if (rnd.Next(0, 2) == 0) this.values.Add("снаружи");
+            else this.values.Add("внутри");
+
+            
+
+            correct_answer = CalcAnswer(Convert.ToInt32(values[0]), values[1].ToString());
+
+            this.CreatingAnswers();
+            this.remixAnswers();
+        }
+
+        public string cor_answ
+        {
+            get
+            {
+                return correct_answer;
+            }
+        }
+
+        private void CreatingAnswers()
+        {
+            this.answers.Add(correct_answer);
+
+            string newAnsw;
+            string value;
+
+            if (values[1].ToString() == "снаружи") newAnsw = CalcAnswer(Convert.ToInt32(values[0]), "внутри");
+            else newAnsw = CalcAnswer(Convert.ToInt32(values[0]), "снаружи");
+            this.answers.Add(newAnsw);
+
+            if (rnd.Next(0, 2) == 0) value = "снаружи";
+            else value = "внутри";
+            newAnsw = CalcAnswer(Convert.ToInt32(values[0]), value).Replace("\u03C0", "").Replace("( -","(1 -");
+            this.answers.Add(newAnsw);
+
+
+            if (rnd.Next(0, 2) == 0)  value= "внутри";
+            else value="снаружи";         
+            newAnsw = CalcAnswer(Convert.ToInt32(values[0]), value);
+
+            int newValuewPi = rnd.Next(2, 9);
+            while (newValuewPi == 4 || newValuewPi%2!=0)
+            {
+                newValuewPi = rnd.Next(2, 9);
+            }
+            newAnsw = newAnsw.Replace("(4\u03C0)", "("+newValuewPi+"\u03C0)");
+
+            this.answers.Add(newAnsw);
+
+
+        }
+        
+        private static string CalcAnswer(int radius, string place)
+        {
+            int numInDenominator=radius*radius*4;
+            int numInNumerator_beforeSqrt=radius*radius*3;
+            int nod;
+
+            switch (place)
+            {
+                case "внутри":
+                    nod = findNOD(numInNumerator_beforeSqrt,numInDenominator);
+                    numInNumerator_beforeSqrt /= nod;
+                    numInDenominator /= nod;
+                    return stringInCorrectFormat(numInNumerator_beforeSqrt,numInDenominator);
+                case "снаружи":
+                    int numInNumerator_beforeMinus = numInDenominator/4;
+                    int nodNumerators = findNOD(numInNumerator_beforeMinus, numInNumerator_beforeSqrt);
+                    nod = findNOD(nodNumerators,numInDenominator);
+                    numInNumerator_beforeMinus /= nod;
+                    numInNumerator_beforeSqrt /= nod;
+                    numInDenominator /= nod;
+                    return stringInCorrectFormat(numInNumerator_beforeMinus, numInNumerator_beforeSqrt, numInDenominator);
+                default:
+                    return "что то пошло не так";
+            }
+        }
+
+       private static string stringInCorrectFormat(int firstEl,int secondEl,int thirdEl=0)
+        {
+            string outFirst = firstEl.ToString();
+            string outSecond = secondEl.ToString();
+            string outThird = thirdEl.ToString();
+
+            if (firstEl == 1)
+            {
+                outFirst = "";
+            }
+
+            if (secondEl == 1)
+            {
+                outSecond = "";
+            }
+            if (thirdEl == 1)
+            {
+                outThird = "";
+            }
+          
+            if (thirdEl == 0)
+            {
+                return "(" + outFirst + "\u221a3)/(" + outSecond + "\u03C0)";
+            }
+            else
+            {
+                return "(" + outFirst + "\u03C0 - " + outSecond + "\u221a3)/(" + outThird + "\u03C0)";
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace TerVer_project
@@ -106,7 +107,8 @@ namespace TerVer_project
                 this.getTheoryTasksInList(theoryTest, countOfTheoryTasks);
                 this.getTaskAndAnswerListInVariant();
 
-                if (practTaskList[0]) createTask1();
+                if (practTaskList[0]) CreateTask1();
+                if (practTaskList[1]) CreateTask2();
             }
 
 
@@ -168,8 +170,8 @@ namespace TerVer_project
             this.getTheoryTasksInList(theoryTest);
                 this.getTaskAndAnswerListInVariant();
 
-                createTask1();
-                
+                CreateTask1();
+                CreateTask2();
             }
 
             
@@ -180,6 +182,13 @@ namespace TerVer_project
             this.workWithTasksWordFile(countVariants);
             this.workWithAnswersWordFile(countVariants);
 
+           
+            
+
+        }
+
+        private void testFormulas()
+        {
             List<string> formuls = new List<string>();
             formuls.Add("f(x) = ((1)/(5\u221a(2\u03C0)))e^((-(x+6)^2)/(50))");
             formuls.Add("ㅤㅤㅤ \u23A7 0 \t при x \u2264 0" + "\v" +
@@ -187,7 +196,7 @@ namespace TerVer_project
                         "ㅤㅤㅤ \u23A9 0 \t при x > 5");
             formuls.Add("\t(4-3\u221a3)/(4\u03C0)");
 
-            
+
             for (int i = 0; i < 3; i++)
             {
                 object oMissing = System.Reflection.Missing.Value;
@@ -198,15 +207,21 @@ namespace TerVer_project
 
                 worddocumentAnswers.OMaths.Add(wordparagraph.Range).OMaths.BuildUp();
             }
-            
-
         }
 
-        private void createTask1()
+        private void CreateTask1()
         {
             Task1 task1 = new Task1();
             theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task1.fullTextOfTask);
             answersList.Add((answersList.Count + 1).ToString() + ".\t" + task1.outCorrectAnswer);
+        }
+
+        private void CreateTask2()
+        {
+            Task2 task2 = new Task2();
+            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task2.fullTextOfTask);
+            answersList.Add((answersList.Count + 1).ToString() + ".\t" + task2.outCorrectAnswer);
+
         }
 
         private void InitialWorkWithWord()
@@ -256,6 +271,54 @@ namespace TerVer_project
             }
 
             
+        }
+
+        private void replaceFormulas()
+        {
+            // Регулярное выражение для поиска математической формулы, записанной с использованием символов Юникода
+            string mathPattern = @"#[^#@]*@";
+
+            // Поиск текста, содержащего математическую формулу
+            Regex regex = new Regex(mathPattern);
+            MatchCollection matches = regex.Matches(worddocument.Content.Text);
+
+            // Если найдена математическая формула
+            int chered = 0;
+            foreach(Match match in matches)
+            {
+                
+                    // Выделение найденного текста
+
+                    Word.Range range = worddocument.Range(match.Index + 1, match.Index + match.Length - 1);
+                    range.Select();
+
+                    // Вставка математической формулы на место выделенного текста
+                    //Word.OMath math = wordapp.Selection.OMaths.Add(wordapp.Selection.Range);
+                    worddocument.OMaths.Add(wordapp.Selection.Range).OMaths.BuildUp();
+                    // math.BuildUp();
+                
+                
+            }
+        }
+
+        private void pasteImagesInParagraph()
+        {
+            wordparagraph = wordparagraphs[wordparagraphs.Count];
+            object missing = Type.Missing;
+            pasteImage("а)", "/images/1.png");
+            pasteImage("б)", "/images/1.png");
+            pasteImage("в)", "/images/1.png");
+            pasteImage("г)", "/images/1.png");
+        }
+
+        private void pasteImage(string letter,string path)
+        {
+            // Вставьте картинку после 'а)'
+            object missing = Type.Missing;
+            Word.Range rngA = worddocument.Range(wordparagraph.Range.Start, wordparagraph.Range.End);
+            rngA.Find.Execute(letter, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            rngA.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
+            rngA.InlineShapes.AddPicture(path, false, true, rngA);
         }
 
         private void workWithAnswersWordFile(int countVariants)
@@ -483,7 +546,10 @@ namespace TerVer_project
 
         private void FormTest2_Load(object sender, EventArgs e)
         {
+            Task2 task2 = new Task2();
+            Text = task2.cor_answ;
 
+            
         }
     }
 }
