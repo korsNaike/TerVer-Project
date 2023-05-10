@@ -13,8 +13,10 @@ namespace TerVer_project
         public static Random rnd = new Random();
 
         protected List<object> values=new List<object>();
-        public List<string> textList;
+        
         public List<string> answers;
+
+        public List<string> textList;
         protected string correct_answer;
 
         public string outCorrectAnswer
@@ -75,7 +77,7 @@ namespace TerVer_project
             for (int i = 0; i < this.answers.Count; i++)
             {
                 answersString += letterByInd(i) + " " + this.answers[i];
-                if (i == 3) answersString += ".";
+                if (i == this.answers.Count-1) answersString += ".";
                 else answersString += ";\t";
             }
 

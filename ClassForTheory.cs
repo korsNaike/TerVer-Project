@@ -41,7 +41,7 @@ namespace TerVer_project
     public class TheoryTask : Task
     {
         public string question { get; set; }
-        public string correct_answer { get; set; }
+        public new string correct_answer { get; set; }
         public List<string> all_answers { get; set; }
 
         protected internal string true_answer;
@@ -55,6 +55,7 @@ namespace TerVer_project
         public string getAnswerOptionTheoryTaskString(int index, int allAnswersCnt = 4)
         {
             string newTheoryTask = "";
+
             int rndIndexForAnswer = rnd.Next(0, this.all_answers.Count);
             newTheoryTask += letterByInd(index, true) +" "+ this.all_answers[rndIndexForAnswer];
 

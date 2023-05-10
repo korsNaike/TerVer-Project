@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Word = Microsoft.Office.Interop.Word;
+using TerVer_Project_3_pop.Properties;
+using System.Reflection;
 
 namespace TerVer_project
 {
@@ -131,6 +133,14 @@ namespace TerVer_project
             return JsonSerializer.Deserialize<TheoryTest>(jsonString)!;
         }
 
+        private static PracticeTest GetPracticeTestFromJson()
+        {
+            string fileName = "PracticeTerVer.json";
+            string jsonString = File.ReadAllText(fileName);
+
+            return JsonSerializer.Deserialize<PracticeTest>(jsonString)!;
+        }
+
         private List<List<string>> variantsTasksList;
         private List<List<string>> variantsAnswersList;
         private List<string> answersList;
@@ -172,6 +182,11 @@ namespace TerVer_project
 
                 CreateTask1();
                 CreateTask2();
+
+                PracticeTest practiceTest = GetPracticeTestFromJson();
+
+                CreateTasksFrom3To5(practiceTest);
+
             }
 
             
@@ -180,6 +195,7 @@ namespace TerVer_project
 
             this.InitialWorkWithWord();
             this.workWithTasksWordFile(countVariants);
+            
             this.workWithAnswersWordFile(countVariants);
 
            
@@ -224,6 +240,20 @@ namespace TerVer_project
 
         }
 
+        private void CreateTasksFrom3To5(PracticeTest practiceTest)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                VariantOfTask variantOfTask = practiceTest.types[i].tasks[Task.rnd.Next(0,4)];
+                variantOfTask.prepareTask();
+                theoryTaskList.Add(variantOfTask.OutputTaskWithIndex(theoryTaskList.Count + 1));
+                answersList.Add((answersList.Count + 1).ToString() + ".\t" + variantOfTask.outCorrectAnswer);
+            }
+
+            
+
+        }
+
         private void InitialWorkWithWord()
         {
             this.openWord();
@@ -264,7 +294,11 @@ namespace TerVer_project
                     worddocument.Paragraphs.Add(ref oMissing);
                     numOfParagraph++;
                     outputTaskInWord(variantsTasksList[i][j], numOfParagraph);
+
+                   // numOfParagraph++;
+                   // this.pasteImagesInParagraph();
                 }
+
                 
                 numOfParagraph++;
                 CreatePageBreak(numOfParagraph);
@@ -273,53 +307,35 @@ namespace TerVer_project
             
         }
 
-        private void replaceFormulas()
-        {
-            // Регулярное выражение для поиска математической формулы, записанной с использованием символов Юникода
-            string mathPattern = @"#[^#@]*@";
-
-            // Поиск текста, содержащего математическую формулу
-            Regex regex = new Regex(mathPattern);
-            MatchCollection matches = regex.Matches(worddocument.Content.Text);
-
-            // Если найдена математическая формула
-            int chered = 0;
-            foreach(Match match in matches)
-            {
-                
-                    // Выделение найденного текста
-
-                    Word.Range range = worddocument.Range(match.Index + 1, match.Index + match.Length - 1);
-                    range.Select();
-
-                    // Вставка математической формулы на место выделенного текста
-                    //Word.OMath math = wordapp.Selection.OMaths.Add(wordapp.Selection.Range);
-                    worddocument.OMaths.Add(wordapp.Selection.Range).OMaths.BuildUp();
-                    // math.BuildUp();
-                
-                
-            }
-        }
-
         private void pasteImagesInParagraph()
         {
+            object oMis = System.Reflection.Missing.Value;
+            worddocument.Paragraphs.Add(ref oMis);
             wordparagraph = wordparagraphs[wordparagraphs.Count];
+            wordparagraph.Range.Text= "1. Задание. а) б) в) г)";
+
             object missing = Type.Missing;
-            pasteImage("а)", "/images/1.png");
-            pasteImage("б)", "/images/1.png");
-            pasteImage("в)", "/images/1.png");
-            pasteImage("г)", "/images/1.png");
+           
+            pasteImage("а)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2var2a.png"));
+
+            pasteImage("б)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong.png"));
+            pasteImage("в)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong3.png"));
+           pasteImage("г)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong4.png"));
         }
 
         private void pasteImage(string letter,string path)
         {
-            // Вставьте картинку после 'а)'
+            
+            Text = path;
             object missing = Type.Missing;
             Word.Range rngA = worddocument.Range(wordparagraph.Range.Start, wordparagraph.Range.End);
             rngA.Find.Execute(letter, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
             rngA.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
-            rngA.InlineShapes.AddPicture(path, false, true, rngA);
+           Word.InlineShape shape=rngA.InlineShapes.AddPicture(path, false, true, rngA);
+            shape.Width = 50;
+            shape.Height = 50;
         }
+
 
         private void workWithAnswersWordFile(int countVariants)
         {
@@ -400,7 +416,7 @@ namespace TerVer_project
         private void saveWordFileAs()
         {
             string curDate = DateTime.Now.ToString();
-            curDate=curDate.Replace(":", "-");
+            curDate=curDate.Replace(":", " -");
             Object fileName = @"C:\Users\79186\Тест№2 " + curDate+ ".doc";
             Object fileFormat = Word.WdSaveFormat.wdFormatDocument;
             Object lockComments = false;
