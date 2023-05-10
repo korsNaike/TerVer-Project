@@ -7,34 +7,68 @@ using System.Threading.Tasks;
 
 namespace TerVer_project
 {
-    public class PracticeTest 
+    public class PracticeTask
     {
-        public List<VariantsOfTasks> types { get; set; }
-    }
+        public string text { get; set; }
+        public string correct_answer { get; set; }
+        public List<string> answers { get; set; }
+        public ImagesSource imagesSource { get; set; }
 
-    public class VariantsOfTasks 
-    {
-        public List<VariantOfTask> tasks { get; set; }
-    }
+        public string outCorrectAnswerWithouImages
+        {
+            get
+            {
+                return letterByInd(this.answers.IndexOf(this.correct_answer)) + " " + this.correct_answer;
+            }
+        }
 
-    public class VariantOfTask : Task
-    {
-        public new string text { get; set; }
-        public new string correct_answer { get; set; }
+        public string outCorrectAnswerPictureName
+        {
+            get
+            {
+                if (imagesSource != null && imagesSource.answer != null) return this.correct_answer;
+                else return "test.png";
+            }
+        }
 
-        public new List<string> answers { get; set; }
+        public string fullTextOfTaskWithoutImages
+        {
+            get
+            {
+                return this.text + "\v" + this.createAnswerString();
 
+            }
+        }
 
-        public ImagesSources imagesSources { get; set; }
+        public void prepareToContinue()
+        {
+            if (imagesSource == null)
+            {
+                remixAnswers();
+                return;
+            }
 
-        protected new void remixAnswers()
+            if (imagesSource.answer == null)
+            {
+                remixAnswers();
+                return;
+            }
+
+            imagesSource.remixImages();
+            this.answers = imagesSource.answer;
+            
+        }
+
+        
+
+        protected void remixAnswers()
         {
             List<string> copyAnswers = new List<string>(this.answers);
             List<string> mixAnswers = new List<string>();
 
             for (int i = 0; i < this.answers.Count; i++)
             {
-                int randInd = rnd.Next(0, copyAnswers.Count);
+                int randInd = Task.rnd.Next(0, copyAnswers.Count);
                 mixAnswers.Add(copyAnswers[randInd]);
                 copyAnswers.RemoveAt(randInd);
             }
@@ -43,59 +77,84 @@ namespace TerVer_project
 
         }
 
-
-        public void prepareTask()
+        protected string createAnswerString()
         {
-            
-            if (imagesSources == null)
+            string answersString = "";
+
+            for (int i = 0; i < this.answers.Count; i++)
             {
-                this.remixAnswers();
-                return;
+                answersString += letterByInd(i) + " " + this.answers[i];
+                if (i == this.answers.Count - 1) answersString += ".";
+                else answersString += ";\t";
             }
 
-            if (imagesSources.answer == null && imagesSources.title!=null)
-            {
-                this.remixAnswers();
-
-                return;
-            }
-
-            if (imagesSources.answer != null)
-            {
-                this.answers = imagesSources.answer;
-                this.remixAnswers();
-
-                return;
-            }
-
+            return answersString;
         }
 
-        public string OutputTaskWithIndex(int index)
-        {
-            return (index).ToString() +"\t"+ OutputTask;
-        }
 
-        protected string OutputTask
+        static public string letterByInd(int i, bool upperCase = false)
         {
-            get
+            if (!upperCase)
             {
-                return this.text + "\v" + this.createAnswerString();
+                switch (i)
+                {
+                    case 0: return "a)";
+                    case 1: return "б)";
+                    case 2: return "в)";
+                    case 3: return "г)";
+                }
             }
+            else
+            {
+                switch (i)
+                {
+                    case 0: return "А.";
+                    case 1: return "Б.";
+                    case 2: return "В.";
+                    case 3: return "Г.";
+                }
+            }
+
+            return "нет такой буквы";
         }
     }
 
-    public class ImagesSources 
+    public class ImagesSource
     {
         public string title { get; set; }
         public List<string> answer { get; set; }
 
-        Random rnd = new Random();
-
-        public static string getPathToImage(string nameOfFile)
+        protected internal void remixImages()
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", nameOfFile);
-        }
+            List<string> copyAnswers = new List<string>(this.answer);
+            List<string> mixAnswers = new List<string>();
 
-        
+            for (int i = 0; i < this.answer.Count; i++)
+            {
+                int randInd = Task.rnd.Next(0, copyAnswers.Count);
+                mixAnswers.Add(copyAnswers[randInd]);
+                copyAnswers.RemoveAt(randInd);
+            }
+
+            this.answer = new List<string>(mixAnswers);
+
+        }
+    }
+
+    public class Type
+    {
+        public List<PracticeTask> tasks { get; set; }
+
+        public PracticeTask getRandomTask()
+        {
+            int rndInd = Task.rnd.Next(0, tasks.Count);
+
+            return tasks[rndInd];
+        }
+    }
+
+    public class Root
+    {
+        public List<Type> types { get; set; }
     }
 }

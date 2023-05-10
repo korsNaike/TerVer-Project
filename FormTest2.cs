@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -107,10 +108,12 @@ namespace TerVer_project
                 TheoryTest theoryTest = getTheoryTestFromJson();
 
                 this.getTheoryTasksInList(theoryTest, countOfTheoryTasks);
-                this.getTaskAndAnswerListInVariant();
+                
 
                 if (practTaskList[0]) CreateTask1();
                 if (practTaskList[1]) CreateTask2();
+
+                this.AddTaskAndAnswerListInVariant();
             }
 
 
@@ -130,23 +133,29 @@ namespace TerVer_project
             string fileName = "TheoryTerVer.json";
             string jsonString = File.ReadAllText(fileName);
 
-            return JsonSerializer.Deserialize<TheoryTest>(jsonString)!;
+            return System.Text.Json.JsonSerializer.Deserialize<TheoryTest>(jsonString)!;
         }
 
-        private static PracticeTest GetPracticeTestFromJson()
+        private static Root GetPracticeTestFromJson()
         {
             string fileName = "PracticeTerVer.json";
             string jsonString = File.ReadAllText(fileName);
 
-            return JsonSerializer.Deserialize<PracticeTest>(jsonString)!;
+            return JsonConvert.DeserializeObject<Root>(jsonString)!;
         }
 
         private List<List<string>> variantsTasksList;
         private List<List<string>> variantsAnswersList;
+        private List<Dictionary<int,string>> variantsImagesTitleList;
+        private List<Dictionary<int, List<string>>> variantsImagesAnswersList;
+        private List<Dictionary<int, string>> variantsImagesCorrectAnswersList;
         private List<string> answersList;
         private List<string> theoryTaskList;
+        private Dictionary<int,string> imagesTitleList;
+        private Dictionary<int,List<string>> imagesAnswersList;
+        private Dictionary<int,string> imagesCorrectAnswersList;
 
-        private void getTaskAndAnswerListInVariant()
+        private void AddTaskAndAnswerListInVariant()
         {
             variantsTasksList.Add(theoryTaskList);
             variantsAnswersList.Add(answersList);
@@ -170,23 +179,29 @@ namespace TerVer_project
         {
             variantsTasksList = new List<List<string>>();
             variantsAnswersList = new List<List<string>>();
+            variantsImagesTitleList = new List<Dictionary<int, string>>();
+            variantsImagesAnswersList = new List<Dictionary<int, List<string>>>();
+            variantsImagesCorrectAnswersList = new List<Dictionary<int, string>>();
 
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
+
+           
 
             for (int i = 0; i < countVariants; i++)
             {
                 TheoryTest theoryTest = getTheoryTestFromJson();
 
             this.getTheoryTasksInList(theoryTest);
-                this.getTaskAndAnswerListInVariant();
+                
 
                 CreateTask1();
                 CreateTask2();
 
-                PracticeTest practiceTest = GetPracticeTestFromJson();
+                Root practiceTestRoot = GetPracticeTestFromJson();
+                CreateTasks3_5WithoutPictures(practiceTestRoot);
 
-                CreateTasksFrom3To5(practiceTest);
 
+                this.AddTaskAndAnswerListInVariant();
             }
 
             
@@ -198,8 +213,9 @@ namespace TerVer_project
             
             this.workWithAnswersWordFile(countVariants);
 
-           
             
+
+
 
         }
 
@@ -240,21 +256,60 @@ namespace TerVer_project
 
         }
 
-        private void CreateTasksFrom3To5(PracticeTest practiceTest)
+        private void CreateTasks3_5WithoutPictures(Root data)
         {
             for (int i = 0; i < 3; i++)
             {
-                VariantOfTask variantOfTask = practiceTest.types[i].tasks[Task.rnd.Next(0,4)];
-                variantOfTask.prepareTask();
-                theoryTaskList.Add(variantOfTask.OutputTaskWithIndex(theoryTaskList.Count + 1));
-                answersList.Add((answersList.Count + 1).ToString() + ".\t" + variantOfTask.outCorrectAnswer);
+                PracticeTask task = data.types[i].getRandomTask();
+                task.prepareToContinue();
+                theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.fullTextOfTaskWithoutImages);
+                answersList.Add((answersList.Count + 1).ToString() + ".\t" + task.outCorrectAnswerWithouImages);
             }
-
-            
-
         }
 
-        private void InitialWorkWithWord()
+        private void CreateTaskWithTitleImage(Root data,int key,int numberOfType)
+        {
+            PracticeTask task = data.types[numberOfType].getRandomTask();
+            task.prepareToContinue();
+            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.text + "\v" + "placeForImage");
+        }
+
+        private void AppendQuestionParagraph(int number, PracticeTask task)
+        {
+            string questionText = $"{number}. {task.text}";
+
+            if (task.imagesSource != null && !string.IsNullOrEmpty(task.imagesSource.title))
+            {
+                questionText += $" ({task.imagesSource.title})";
+            }
+
+            questionText += Environment.NewLine;
+
+            for (int i = 0; i <task.answers.Count; i++)
+            {
+                questionText += $"{(char)('A' + i)}. {task.answers[i]}" + Environment.NewLine;
+            }
+
+            Word.Paragraph paragraph = worddocument.Content.Paragraphs.Add();
+            paragraph.Range.Text = questionText;
+            paragraph.Range.InsertParagraphAfter();
+        }
+
+        private void AppendAnswerParagraph(int number, PracticeTask task)
+        {
+            string answerText = $"{number}. {task.correct_answer}";
+
+            if (task.imagesSource != null && task.imagesSource.answer != null)
+            {
+                answerText += $" ({task.imagesSource.answer[number - 1]})";
+            }
+
+            Word.Paragraph paragraph = worddocumentAnswers.Content.Paragraphs.Add();
+            paragraph.Range.Text = answerText;
+            paragraph.Range.InsertParagraphAfter();
+        }
+
+private void InitialWorkWithWord()
         {
             this.openWord();
 
@@ -314,7 +369,7 @@ namespace TerVer_project
             wordparagraph = wordparagraphs[wordparagraphs.Count];
             wordparagraph.Range.Text= "1. Задание. а) б) в) г)";
 
-            object missing = Type.Missing;
+            object missing = System.Type.Missing;
            
             pasteImage("а)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2var2a.png"));
 
@@ -327,7 +382,7 @@ namespace TerVer_project
         {
             
             Text = path;
-            object missing = Type.Missing;
+            object missing = System.Type.Missing;
             Word.Range rngA = worddocument.Range(wordparagraph.Range.Start, wordparagraph.Range.End);
             rngA.Find.Execute(letter, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
             rngA.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
@@ -381,7 +436,7 @@ namespace TerVer_project
 
         private void createNewDocumentWord()
         {
-            Object template = Type.Missing;
+            Object template = System.Type.Missing;
             Object newTemplate = false;
             Object documentType = Word.WdNewDocumentType.wdNewBlankDocument;
             Object visible = true;
@@ -427,12 +482,13 @@ namespace TerVer_project
             Object embedTrueTypeFonts = false;
             Object saveNativePictureFormat = false;
             Object saveFormsData = false;
-            Object saveAsAOCELetter = Type.Missing;
-            Object encoding = Type.Missing;
-            Object insertLineBreaks = Type.Missing;
-            Object allowSubstitutions = Type.Missing;
-            Object lineEnding = Type.Missing;
-            Object addBiDiMarks = Type.Missing;
+            Object saveAsAOCELetter = System.Type.Missing;
+            Object encoding = System.Type.Missing;
+            Object insertLineBreaks = System.Type.Missing;
+            Object allowSubstitutions = System.Type.Missing;
+            Object lineEnding = System.Type.Missing;
+            Object addBiDiMarks = System.Type.Missing;
+
 
             worddocument.SaveAs(ref fileName, ref fileFormat, ref lockComments,
  ref password, ref addToRecentFiles, ref writePassword,
@@ -554,7 +610,7 @@ namespace TerVer_project
         {
             Object saveChanges = Word.WdSaveOptions.wdSaveChanges;
             Object originalFormat = Word.WdOriginalFormat.wdWordDocument;
-            Object routeDocument = Type.Missing;
+            Object routeDocument = System.Type.Missing;
             wordapp.Quit(ref saveChanges,
                          ref originalFormat, ref routeDocument);
             wordapp = null;
