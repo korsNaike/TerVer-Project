@@ -22,14 +22,14 @@ namespace TerVer_project
             }
         }
 
-        public string outCorrectAnswerPictureName
+        public string outCorrectAnswerOnlyLetter
         {
             get
             {
-                if (imagesSource != null && imagesSource.answer != null) return this.correct_answer;
-                else return "test.png";
+                return letterByInd(this.answers.IndexOf(this.correct_answer));
             }
         }
+
 
         public string fullTextOfTaskWithoutImages
         {
@@ -37,6 +37,28 @@ namespace TerVer_project
             {
                 return this.text + "\v" + this.createAnswerString();
 
+            }
+        }
+
+        public string textWithPlaceForImageInTitle
+        {
+            get
+            {
+                string[] splitted = text.Split('.');
+                if (splitted.Length == 2) return splitted[0] + "\v" + " placeForImage \v" + splitted[1] + "\v" + this.createAnswerString();
+
+                return this.text + "\v" + " placeForImage" + "\v" + this.createAnswerString();
+            }
+        }
+
+        public string textWithPlacesForImages
+        {
+            get
+            {
+                string[] splitted = text.Split('.');
+                if (splitted.Length == 2) return splitted[0] + "\v" + " placeForImage \v" + splitted[1] + "\v" + this.createAnswerStringWithPlaceForImages();
+                
+                return this.text + "\v" + " placeForImage" + "\v" + this.createAnswerStringWithPlaceForImages();
             }
         }
 
@@ -86,6 +108,19 @@ namespace TerVer_project
                 answersString += letterByInd(i) + " " + this.answers[i];
                 if (i == this.answers.Count - 1) answersString += ".";
                 else answersString += ";\t";
+            }
+
+            return answersString;
+        }
+
+        protected string createAnswerStringWithPlaceForImages()
+        {
+            string answersString = "";
+
+            for (int i = 0; i < this.answers.Count; i++)
+            {
+                answersString += letterByInd(i) + " placeForImage \t\t";
+                
             }
 
             return answersString;

@@ -113,6 +113,22 @@ namespace TerVer_project
                 if (practTaskList[0]) CreateTask1();
                 if (practTaskList[1]) CreateTask2();
 
+                Root practiceTestRoot = GetPracticeTestFromJson();
+
+                for (int j = 0; j < 3; j++)
+                {
+                  if (practTaskList[2+j]) CreateTasks3_5WithoutPictures(practiceTestRoot, j);
+                }
+
+                for (int j = 3; j < practiceTestRoot.types.Count; j++)
+                {
+                    if (practTaskList[j + 2])
+                    {
+                        if (j != 5) CreateTaskWithTitleImage(practiceTestRoot, j);
+                        else CreateTaskWithImages(practiceTestRoot);
+                    }
+                }
+
                 this.AddTaskAndAnswerListInVariant();
             }
 
@@ -146,14 +162,9 @@ namespace TerVer_project
 
         private List<List<string>> variantsTasksList;
         private List<List<string>> variantsAnswersList;
-        private List<Dictionary<int,string>> variantsImagesTitleList;
-        private List<Dictionary<int, List<string>>> variantsImagesAnswersList;
-        private List<Dictionary<int, string>> variantsImagesCorrectAnswersList;
         private List<string> answersList;
         private List<string> theoryTaskList;
-        private Dictionary<int,string> imagesTitleList;
-        private Dictionary<int,List<string>> imagesAnswersList;
-        private Dictionary<int,string> imagesCorrectAnswersList;
+        private List<string> imagesFileNames;
 
         private void AddTaskAndAnswerListInVariant()
         {
@@ -179,9 +190,7 @@ namespace TerVer_project
         {
             variantsTasksList = new List<List<string>>();
             variantsAnswersList = new List<List<string>>();
-            variantsImagesTitleList = new List<Dictionary<int, string>>();
-            variantsImagesAnswersList = new List<Dictionary<int, List<string>>>();
-            variantsImagesCorrectAnswersList = new List<Dictionary<int, string>>();
+            imagesFileNames = new List<string>();
 
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
 
@@ -198,19 +207,31 @@ namespace TerVer_project
                 CreateTask2();
 
                 Root practiceTestRoot = GetPracticeTestFromJson();
-                CreateTasks3_5WithoutPictures(practiceTestRoot);
 
+                for (int j = 0;j < 3; j++)
+                {
+                    CreateTasks3_5WithoutPictures(practiceTestRoot,j);
+                }
+
+                for (int j = 3; j < practiceTestRoot.types.Count; j++)
+                {
+                    if (j != 5) CreateTaskWithTitleImage(practiceTestRoot, j);
+                    else CreateTaskWithImages(practiceTestRoot);
+                }
+
+                
 
                 this.AddTaskAndAnswerListInVariant();
             }
 
-            
+            List<string> imagesPaths = imagesFileNames.Select(imgName => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", imgName)).ToList();
 
 
 
             this.InitialWorkWithWord();
             this.workWithTasksWordFile(countVariants);
-            
+            ReplacePlaceholdersWithImages(imagesPaths);
+
             this.workWithAnswersWordFile(countVariants);
 
             
@@ -256,22 +277,35 @@ namespace TerVer_project
 
         }
 
-        private void CreateTasks3_5WithoutPictures(Root data)
+        private void CreateTasks3_5WithoutPictures(Root data,int index)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                PracticeTask task = data.types[i].getRandomTask();
+                PracticeTask task = data.types[index].getRandomTask();
                 task.prepareToContinue();
                 theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.fullTextOfTaskWithoutImages);
                 answersList.Add((answersList.Count + 1).ToString() + ".\t" + task.outCorrectAnswerWithouImages);
-            }
         }
 
-        private void CreateTaskWithTitleImage(Root data,int key,int numberOfType)
+        private void CreateTaskWithTitleImage(Root data,int numberOfType)
         {
             PracticeTask task = data.types[numberOfType].getRandomTask();
             task.prepareToContinue();
-            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.text + "\v" + "placeForImage");
+            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.textWithPlaceForImageInTitle);
+            answersList.Add((answersList.Count + 1).ToString() + ".\t" + task.outCorrectAnswerWithouImages);
+            imagesFileNames.Add(task.imagesSource.title);
+        }
+
+        private void CreateTaskWithImages(Root data,int numberOfType=5)
+        {
+            PracticeTask task = data.types[numberOfType].getRandomTask();
+            task.prepareToContinue();
+            theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.textWithPlacesForImages);
+            answersList.Add((answersList.Count + 1).ToString() + ".\t" + task.outCorrectAnswerOnlyLetter);
+            imagesFileNames.Add(task.imagesSource.title);
+
+            foreach(string imgName in task.answers)
+            {
+                imagesFileNames.Add(imgName);
+            }
         }
 
         private void AppendQuestionParagraph(int number, PracticeTask task)
@@ -350,10 +384,7 @@ private void InitialWorkWithWord()
                     numOfParagraph++;
                     outputTaskInWord(variantsTasksList[i][j], numOfParagraph);
 
-                   // numOfParagraph++;
-                   // this.pasteImagesInParagraph();
                 }
-
                 
                 numOfParagraph++;
                 CreatePageBreak(numOfParagraph);
@@ -362,35 +393,47 @@ private void InitialWorkWithWord()
             
         }
 
-        private void pasteImagesInParagraph()
+        private void ReplacePlaceholdersWithImages(List<string> imagesPaths)
         {
-            object oMis = System.Reflection.Missing.Value;
-            worddocument.Paragraphs.Add(ref oMis);
-            wordparagraph = wordparagraphs[wordparagraphs.Count];
-            wordparagraph.Range.Text= "1. Задание. а) б) в) г)";
 
-            object missing = System.Type.Missing;
-           
-            pasteImage("а)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2var2a.png"));
+            Word.Document wordDoc = worddocument;
 
-            pasteImage("б)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong.png"));
-            pasteImage("в)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong3.png"));
-           pasteImage("г)", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "zad2wrong4.png"));
-        }
-
-        private void pasteImage(string letter,string path)
-        {
             
-            Text = path;
-            object missing = System.Type.Missing;
-            Word.Range rngA = worddocument.Range(wordparagraph.Range.Start, wordparagraph.Range.End);
-            rngA.Find.Execute(letter, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-            rngA.Collapse(Word.WdCollapseDirection.wdCollapseEnd);
-           Word.InlineShape shape=rngA.InlineShapes.AddPicture(path, false, true, rngA);
-            shape.Width = 50;
-            shape.Height = 50;
-        }
+                int imgIndex = 0;
+                while (imgIndex < imagesPaths.Count)
+                {
+                    object findText = "placeForImage";
+                    object replaceWith = "^c";
+                    object missing = Missing.Value;
 
+                    Word.Range rng = wordDoc.Content;
+                    rng.Find.ClearFormatting();
+                    rng.Find.Replacement.ClearFormatting();
+                object matchWholeWord = true;
+                    
+
+                    
+                        rng.Copy();
+                    
+                    Word.InlineShape inlineShape = wordDoc.InlineShapes.AddPicture(imagesPaths[imgIndex], LinkToFile: false, SaveWithDocument: true);
+
+                    
+                    inlineShape.Range.Copy();
+
+                    rng.Find.Execute(
+                            FindText: ref findText,
+                            ReplaceWith: ref replaceWith,
+                            MatchWholeWord: ref matchWholeWord,
+                            Replace: Word.WdReplace.wdReplaceOne
+                        );
+
+                  
+                        inlineShape.Delete();
+
+                        imgIndex++;
+                    }
+                    
+        }
 
         private void workWithAnswersWordFile(int countVariants)
         {
