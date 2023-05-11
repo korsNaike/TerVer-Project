@@ -78,6 +78,8 @@ namespace TerVer_project
         private Word.Style wordstyleForStudent;
         private Word.Style wordstyleForTask;
 
+        const int numberOfTaskWithImagesAnswers= 6;
+
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             int countOfTheoryTasks= Convert.ToInt32(numericTheoryTasks.Value);
@@ -123,7 +125,7 @@ namespace TerVer_project
                 {
                     if (practTaskList[j + 2])
                     {
-                        if (j != 6) CreateTaskWithTitleImage(practiceTestRoot, j);
+                        if (j != numberOfTaskWithImagesAnswers) CreateTaskWithTitleImage(practiceTestRoot, j);
                         else CreateTaskWithImages(practiceTestRoot);
                     }
                 }
@@ -241,7 +243,7 @@ namespace TerVer_project
 
                 for (int j = 3; j < practiceTestRoot.types.Count; j++)
                 {
-                    if (j != 6) CreateTaskWithTitleImage(practiceTestRoot, j);
+                    if (j != numberOfTaskWithImagesAnswers) CreateTaskWithTitleImage(practiceTestRoot, j);
                     else CreateTaskWithImages(practiceTestRoot);
                 }
 
@@ -255,11 +257,25 @@ namespace TerVer_project
 
 
             this.InitialWorkWithWord();
-            this.workWithTasksWordFile(countVariants);
-            ReplacePlaceholdersWithImages(imagesPaths);
 
-            this.workWithAnswersWordFile(countVariants);
+            try
+            {
+                this.workWithTasksWordFile(countVariants);
+                ReplacePlaceholdersWithImages(imagesPaths);
+            }
+            catch (Exception ex)
+            {
+                Text = "Что-то произошло с Word файлом теста!";
+            }
 
+            try
+            {
+                this.workWithAnswersWordFile(countVariants);
+            }
+            catch (Exception ex)
+            {
+                Text = "Что-то произошло с Word файлом ответов!";
+            }
             
 
 
@@ -299,7 +315,7 @@ namespace TerVer_project
             if (task.imagesSource.title2 != null) imagesFileNames.Add(task.imagesSource.title2);
         }
 
-        private void CreateTaskWithImages(Root data,int numberOfType=6)
+        private void CreateTaskWithImages(Root data,int numberOfType=numberOfTaskWithImagesAnswers)
         {
             PracticeTask task = data.types[numberOfType].getRandomTask();
             task.prepareToContinue();
@@ -436,6 +452,7 @@ private void InitialWorkWithWord()
         {
             try
             {
+                Text = "Тест№2";
 
                 wordapp = new Word.Application();
 
@@ -443,7 +460,7 @@ private void InitialWorkWithWord()
             }
             catch (Exception ex)
             {
-                Text = ex.Message;
+                Text = "Word не удалось открыть!";
             }
         }
 
@@ -472,12 +489,13 @@ private void InitialWorkWithWord()
         {
             try
             {
+                Text = "Тест№2";
                 worddocument.Save();
                 worddocumentAnswers.Save();
             }
             catch (Exception ex)
             {
-
+                Text = "Файлы Word не были сохранены!";
             }
         }
 
