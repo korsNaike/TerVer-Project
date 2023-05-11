@@ -30,6 +30,7 @@ namespace TerVer_project
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTest2));
             this.groupBoxZadaniya = new System.Windows.Forms.GroupBox();
             this.tipTask13 = new System.Windows.Forms.Label();
             this.tipTask12 = new System.Windows.Forms.Label();
@@ -612,6 +613,8 @@ namespace TerVer_project
             this.ClientSize = new System.Drawing.Size(925, 891);
             this.Controls.Add(this.groupBoxGenerate);
             this.Controls.Add(this.groupBoxZadaniya);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormTest2";
             this.Text = "Тест№2";

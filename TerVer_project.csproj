@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>TerVer_Project_3_pop</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Resources\iconForTerVer.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -135,6 +135,7 @@
 	  <EmbeddedResource Remove="Resources\4_Table.gif" />
 	  <EmbeddedResource Remove="Resources\7_F.png" />
 	  <EmbeddedResource Remove="Resources\7_T.png" />
+	  <EmbeddedResource Remove="Resources\iconForTerVer.ico" />
 	</ItemGroup>
 
 </Project>
