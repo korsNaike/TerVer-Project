@@ -321,7 +321,7 @@ namespace TerVer_project
                     numInNumerator_beforeMinus /= nod;
                     numInNumerator_beforeSqrt /= nod;
                     numInDenominator /= nod;
-                    return stringInCorrectFormat(numInNumerator_beforeMinus, numInNumerator_beforeSqrt, numInDenominator);
+                    return stringInCorrectFormat(numInNumerator_beforeMinus*4, numInNumerator_beforeSqrt, numInDenominator);
                 default:
                     return "что то пошло не так";
             }

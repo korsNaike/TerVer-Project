@@ -44,7 +44,14 @@ namespace TerVer_project
         {
             get
             {
-                string[] splitted = text.Split('.');
+                string[] splitted;
+                if (imagesSource.title2 != null)
+                {
+
+                    splitted = text.Split(':');
+                    if (splitted.Length==3) return splitted[0] + "\v" + " placeForImage \v" + splitted[1] + "\v placeForImage \v"+splitted[2]+"\v" + this.createAnswerString();
+                }
+                splitted = text.Split('.');
                 if (splitted.Length == 2) return splitted[0] + "\v" + " placeForImage \v" + splitted[1] + "\v" + this.createAnswerString();
 
                 return this.text + "\v" + " placeForImage" + "\v" + this.createAnswerString();
@@ -157,6 +164,8 @@ namespace TerVer_project
     public class ImagesSource
     {
         public string title { get; set; }
+
+        public string title2 { get; set; }
         public List<string> answer { get; set; }
 
         protected internal void remixImages()

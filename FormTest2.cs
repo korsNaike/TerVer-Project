@@ -98,8 +98,7 @@ namespace TerVer_project
             practTaskList.Add(checkBoxTask13.Checked);
 
 
-            variantsTasksList = new List<List<string>>();
-            variantsAnswersList = new List<List<string>>();
+            this.InitializeMainLists();
 
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
 
@@ -124,7 +123,7 @@ namespace TerVer_project
                 {
                     if (practTaskList[j + 2])
                     {
-                        if (j != 5) CreateTaskWithTitleImage(practiceTestRoot, j);
+                        if (j != 6) CreateTaskWithTitleImage(practiceTestRoot, j);
                         else CreateTaskWithImages(practiceTestRoot);
                     }
                 }
@@ -137,6 +136,8 @@ namespace TerVer_project
 
             this.InitialWorkWithWord();
             this.workWithTasksWordFile(countVariants);
+            List<string> imagesPaths = imagesFileNames.Select(imgName => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", imgName)).ToList();
+            ReplacePlaceholdersWithImages(imagesPaths);
             this.workWithAnswersWordFile(countVariants);
 
 
@@ -166,6 +167,13 @@ namespace TerVer_project
         private List<string> theoryTaskList;
         private List<string> imagesFileNames;
 
+        private void InitializeMainLists()
+        {
+            variantsTasksList = new List<List<string>>();
+            variantsAnswersList = new List<List<string>>();
+            imagesFileNames = new List<string>();
+        }
+
         private void AddTaskAndAnswerListInVariant()
         {
             variantsTasksList.Add(theoryTaskList);
@@ -180,17 +188,35 @@ namespace TerVer_project
             for (int i = 0; i < cntTheoryTasks; i++)
             {
                 int randIndexForTask = Task.rnd.Next(0, theoryTest.theoryTasks.Count);
-                theoryTaskList.Add(theoryTest.getNewTheoryTaskString(i,randIndexForTask));
-                answersList.Add(theoryTest.getNewTheoryAnswerString(i, randIndexForTask));
-               theoryTest.theoryTasks.RemoveAt(randIndexForTask);
+                string newTheoryTaskString = theoryTest.getNewTheoryTaskString(i, randIndexForTask);
+
+                List<string> imagesInTheoryTask = TheoryTest.GetImageFileNames(newTheoryTaskString);
+                if (imagesInTheoryTask.Count == 0)
+                {
+
+                    answersList.Add(theoryTest.getNewTheoryAnswerString(i, randIndexForTask));
+                }
+                else
+                {
+                    newTheoryTaskString = TheoryTest.ReplaceImageFileNames(newTheoryTaskString);
+
+                    foreach (string imageName in imagesInTheoryTask)
+                    {
+                        imagesFileNames.Add(imageName);
+                    }
+
+                    answersList.Add(theoryTest.getNewTheoryLetterString(i,randIndexForTask));
+                }
+
+                theoryTaskList.Add(newTheoryTaskString);
+
+                theoryTest.theoryTasks.RemoveAt(randIndexForTask);
             }
         }
 
         private void buttonGenerateFull_Click(object sender, EventArgs e)
         {
-            variantsTasksList = new List<List<string>>();
-            variantsAnswersList = new List<List<string>>();
-            imagesFileNames = new List<string>();
+            this.InitializeMainLists();
 
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
 
@@ -215,7 +241,7 @@ namespace TerVer_project
 
                 for (int j = 3; j < practiceTestRoot.types.Count; j++)
                 {
-                    if (j != 5) CreateTaskWithTitleImage(practiceTestRoot, j);
+                    if (j != 6) CreateTaskWithTitleImage(practiceTestRoot, j);
                     else CreateTaskWithImages(practiceTestRoot);
                 }
 
@@ -238,28 +264,6 @@ namespace TerVer_project
 
 
 
-        }
-
-        private void testFormulas()
-        {
-            List<string> formuls = new List<string>();
-            formuls.Add("f(x) = ((1)/(5\u221a(2\u03C0)))e^((-(x+6)^2)/(50))");
-            formuls.Add("ㅤㅤㅤ \u23A7 0 \t при x \u2264 0" + "\v" +
-                        "f(x) =\u23A8 (3x^2)/125 \t при 0 < x \u2264 5" + "\v" +
-                        "ㅤㅤㅤ \u23A9 0 \t при x > 5");
-            formuls.Add("\t(4-3\u221a3)/(4\u03C0)");
-
-
-            for (int i = 0; i < 3; i++)
-            {
-                object oMissing = System.Reflection.Missing.Value;
-                worddocumentAnswers.Paragraphs.Add(ref oMissing);
-                wordparagraph = wordparagraphs[wordparagraphs.Count];
-
-                wordparagraph.Range.Text = formuls[i];
-
-                worddocumentAnswers.OMaths.Add(wordparagraph.Range).OMaths.BuildUp();
-            }
         }
 
         private void CreateTask1()
@@ -292,9 +296,10 @@ namespace TerVer_project
             theoryTaskList.Add((theoryTaskList.Count + 1).ToString() + "." + task.textWithPlaceForImageInTitle);
             answersList.Add((answersList.Count + 1).ToString() + ".\t" + task.outCorrectAnswerWithouImages);
             imagesFileNames.Add(task.imagesSource.title);
+            if (task.imagesSource.title2 != null) imagesFileNames.Add(task.imagesSource.title2);
         }
 
-        private void CreateTaskWithImages(Root data,int numberOfType=5)
+        private void CreateTaskWithImages(Root data,int numberOfType=6)
         {
             PracticeTask task = data.types[numberOfType].getRandomTask();
             task.prepareToContinue();
@@ -306,41 +311,6 @@ namespace TerVer_project
             {
                 imagesFileNames.Add(imgName);
             }
-        }
-
-        private void AppendQuestionParagraph(int number, PracticeTask task)
-        {
-            string questionText = $"{number}. {task.text}";
-
-            if (task.imagesSource != null && !string.IsNullOrEmpty(task.imagesSource.title))
-            {
-                questionText += $" ({task.imagesSource.title})";
-            }
-
-            questionText += Environment.NewLine;
-
-            for (int i = 0; i <task.answers.Count; i++)
-            {
-                questionText += $"{(char)('A' + i)}. {task.answers[i]}" + Environment.NewLine;
-            }
-
-            Word.Paragraph paragraph = worddocument.Content.Paragraphs.Add();
-            paragraph.Range.Text = questionText;
-            paragraph.Range.InsertParagraphAfter();
-        }
-
-        private void AppendAnswerParagraph(int number, PracticeTask task)
-        {
-            string answerText = $"{number}. {task.correct_answer}";
-
-            if (task.imagesSource != null && task.imagesSource.answer != null)
-            {
-                answerText += $" ({task.imagesSource.answer[number - 1]})";
-            }
-
-            Word.Paragraph paragraph = worddocumentAnswers.Content.Paragraphs.Add();
-            paragraph.Range.Text = answerText;
-            paragraph.Range.InsertParagraphAfter();
         }
 
 private void InitialWorkWithWord()

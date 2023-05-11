@@ -37,6 +37,68 @@ namespace TerVer_project
             return (index+1).ToString() + ".\t" + task.true_answer;
         }
 
+        public string getNewTheoryLetterString(int index,int randIndexForTask)
+        {
+            TheoryTask task = this.theoryTasks[randIndexForTask];
+            return (index + 1).ToString() + ".\t" + task.true_answerLetterIndex;
+        }
+
+        public static List<string> GetImageFileNames(string input)
+        {
+            List<string> result = new List<string>();
+
+            char[] separators = { ' ',';', ',', ':', '\t' };
+
+            string[] imageExtensions = { ".gif", ".jpg", ".jpeg", ".png" };
+
+            string[] words = input.Split(separators);
+
+
+            foreach (string word in words)
+            {
+                foreach (string extension in imageExtensions)
+                {
+                    if (word.EndsWith(extension))
+                    {
+                        result.Add(word);
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static string ReplaceImageFileNames(string input)
+        {
+
+            char[] separators = { ' ', ';', ',', ':', '\t' };
+
+            string[] imageExtensions = { ".gif", ".jpg", ".jpeg", ".png" };
+
+
+            string[] words = input.Split(separators);
+
+ 
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+
+                foreach (string extension in imageExtensions)
+                {
+                    if (word.EndsWith(extension))
+                    {
+                        words[i] = "placeForImage";
+                        break;
+                    }
+                }
+            }
+
+            string result = string.Join(" ", words);
+
+            return result;
+        }
+
     }
     public class TheoryTask : Task
     {
@@ -45,11 +107,12 @@ namespace TerVer_project
         public List<string> all_answers { get; set; }
 
         protected internal string true_answer;
+        protected internal string true_answerLetterIndex;
   
 
         public string getQuestionTheoryTaskString(int index)
         {
-            return (index + 1).ToString() + "." + this.question + "\v";
+            return (index + 1).ToString() + "." + this.question + " \v";
         }
 
         public string getAnswerOptionTheoryTaskString(int index, int allAnswersCnt = 4)
@@ -57,10 +120,11 @@ namespace TerVer_project
             string newTheoryTask = "";
 
             int rndIndexForAnswer = rnd.Next(0, this.all_answers.Count);
-            newTheoryTask += letterByInd(index, true) +" "+ this.all_answers[rndIndexForAnswer];
+            newTheoryTask += letterByInd(index, true) +" "+ this.all_answers[rndIndexForAnswer]+" ";
 
             if (this.all_answers[rndIndexForAnswer] == correct_answer)
             {
+                true_answerLetterIndex = letterByInd(index, true);
                 true_answer = newTheoryTask+".";
             }
 
@@ -73,6 +137,23 @@ namespace TerVer_project
             newTheoryTask += "\v";
 
             return newTheoryTask;
+        }
+
+        public string FindImageWord(string str)
+        {
+            string[] words = str.Split(' ');
+
+            foreach (string word in words)
+            {
+                if (word.EndsWith(".gif") ||
+                    word.EndsWith(".jpg") ||
+                    word.EndsWith(".png"))
+                {
+                    return word;
+                }
+            }
+
+            return null;
         }
 
     }

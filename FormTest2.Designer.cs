@@ -67,7 +67,6 @@ namespace TerVer_project
             this.label2 = new System.Windows.Forms.Label();
             this.numericKolVariants = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.textForTest = new System.Windows.Forms.Label();
             this.groupBoxZadaniya.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTheoryTasks)).BeginInit();
             this.groupBoxGenerate.SuspendLayout();
@@ -484,7 +483,7 @@ namespace TerVer_project
             this.numericTheoryTasks.Location = new System.Drawing.Point(6, 136);
             this.numericTheoryTasks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.numericTheoryTasks.Maximum = new decimal(new int[] {
-            7,
+            52,
             0,
             0,
             0});
@@ -606,21 +605,11 @@ namespace TerVer_project
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
-            // textForTest
-            // 
-            this.textForTest.AutoSize = true;
-            this.textForTest.Location = new System.Drawing.Point(602, 389);
-            this.textForTest.Name = "textForTest";
-            this.textForTest.Size = new System.Drawing.Size(50, 20);
-            this.textForTest.TabIndex = 2;
-            this.textForTest.Text = "label3";
-            // 
             // FormTest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 891);
-            this.Controls.Add(this.textForTest);
             this.Controls.Add(this.groupBoxGenerate);
             this.Controls.Add(this.groupBoxZadaniya);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -634,7 +623,6 @@ namespace TerVer_project
             this.groupBoxGenerate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericKolVariants)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -677,7 +665,6 @@ namespace TerVer_project
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericKolVariants;
         private System.Windows.Forms.Button buttonGenerateFull;
-        private System.Windows.Forms.Label textForTest;
     }
 }
 
