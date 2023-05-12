@@ -8,6 +8,10 @@
     <ApplicationIcon>Resources\iconForTerVer.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <WrapperTool>tlbimp</WrapperTool>
