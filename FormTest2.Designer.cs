@@ -68,6 +68,9 @@ namespace TerVer_project
             this.label2 = new System.Windows.Forms.Label();
             this.numericKolVariants = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
+            this.labelForException = new System.Windows.Forms.Label();
+            this.labelWarning = new System.Windows.Forms.Label();
+            this.labelNoTasks = new System.Windows.Forms.Label();
             this.groupBoxZadaniya.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTheoryTasks)).BeginInit();
             this.groupBoxGenerate.SuspendLayout();
@@ -534,6 +537,7 @@ namespace TerVer_project
             // 
             // groupBoxGenerate
             // 
+            this.groupBoxGenerate.Controls.Add(this.labelNoTasks);
             this.groupBoxGenerate.Controls.Add(this.buttonGenerateFull);
             this.groupBoxGenerate.Controls.Add(this.label2);
             this.groupBoxGenerate.Controls.Add(this.numericKolVariants);
@@ -606,15 +610,52 @@ namespace TerVer_project
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
+            // labelForException
+            // 
+            this.labelForException.AutoSize = true;
+            this.labelForException.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelForException.ForeColor = System.Drawing.Color.Red;
+            this.labelForException.Location = new System.Drawing.Point(506, 399);
+            this.labelForException.Name = "labelForException";
+            this.labelForException.Size = new System.Drawing.Size(234, 31);
+            this.labelForException.TabIndex = 2;
+            this.labelForException.Text = "Произошла ошибка! ";
+            this.labelForException.Visible = false;
+            // 
+            // labelWarning
+            // 
+            this.labelWarning.AutoSize = true;
+            this.labelWarning.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelWarning.ForeColor = System.Drawing.Color.Red;
+            this.labelWarning.Location = new System.Drawing.Point(506, 331);
+            this.labelWarning.Name = "labelWarning";
+            this.labelWarning.Size = new System.Drawing.Size(304, 62);
+            this.labelWarning.TabIndex = 3;
+            this.labelWarning.Text = "Что-то пошло не так с Word\r\nфайлом теста!";
+            this.labelWarning.Visible = false;
+            // 
+            // labelNoTasks
+            // 
+            this.labelNoTasks.AutoSize = true;
+            this.labelNoTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelNoTasks.ForeColor = System.Drawing.Color.Red;
+            this.labelNoTasks.Location = new System.Drawing.Point(7, 248);
+            this.labelNoTasks.Name = "labelNoTasks";
+            this.labelNoTasks.Size = new System.Drawing.Size(386, 31);
+            this.labelNoTasks.TabIndex = 4;
+            this.labelNoTasks.Text = "Вы не выделили ни одного задания";
+            this.labelNoTasks.Visible = false;
+            // 
             // FormTest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 891);
+            this.Controls.Add(this.labelWarning);
+            this.Controls.Add(this.labelForException);
             this.Controls.Add(this.groupBoxGenerate);
             this.Controls.Add(this.groupBoxZadaniya);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormTest2";
             this.Text = "Тест№2";
@@ -626,6 +667,7 @@ namespace TerVer_project
             this.groupBoxGenerate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericKolVariants)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -668,6 +710,9 @@ namespace TerVer_project
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericKolVariants;
         private System.Windows.Forms.Button buttonGenerateFull;
+        private System.Windows.Forms.Label labelForException;
+        private System.Windows.Forms.Label labelWarning;
+        private System.Windows.Forms.Label labelNoTasks;
     }
 }
 

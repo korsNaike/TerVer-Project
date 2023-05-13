@@ -80,8 +80,17 @@ namespace TerVer_project
 
         const int numberOfTaskWithImagesAnswers= 6;
 
+        private void OffWarnings()
+        {
+            labelNoTasks.Visible = false;
+            labelForException.Visible = false;
+            labelWarning.Visible = false;
+        }
+
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
+            OffWarnings();
+            
             int countOfTheoryTasks= Convert.ToInt32(numericTheoryTasks.Value);
 
             List<bool> practTaskList = new List<bool>();
@@ -99,6 +108,11 @@ namespace TerVer_project
             practTaskList.Add(checkBoxTask12.Checked);
             practTaskList.Add(checkBoxTask13.Checked);
 
+            if (countOfTheoryTasks==0 && !(practTaskList.Contains(true)))
+            {
+                labelNoTasks.Visible = true;
+                return;
+            }
 
             this.InitializeMainLists();
 
@@ -220,6 +234,9 @@ namespace TerVer_project
         {
             this.InitializeMainLists();
 
+            OffWarnings();
+           
+
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
 
            
@@ -258,15 +275,16 @@ namespace TerVer_project
 
             this.InitialWorkWithWord();
 
-           // try
-           // {
+            try
+            {
                 this.workWithTasksWordFile(countVariants);
                 ReplacePlaceholdersWithImages(imagesPaths);
-           // }
-           // catch (Exception ex)
-           // {
-            //    Text = "Что-то произошло с Word файлом теста!";
-           // }
+            }
+            catch (Exception ex)
+            {
+                labelWarning.Visible = true;
+               labelWarning.Text = "Что-то пошло не так с Word\n файлом теста!";
+            }
 
             try
             {
@@ -274,7 +292,8 @@ namespace TerVer_project
             }
             catch (Exception ex)
             {
-                Text = "Что-то произошло с Word файлом ответов!";
+                labelWarning.Visible = true;
+                labelWarning.Text = "Что-то пошло не так с Word\n файлом ответов!";
             }
             
 
@@ -423,6 +442,8 @@ private void InitialWorkWithWord()
                 catch (Exception ex)
                 {
                     string thisImagePath = imagesPaths[imgIndex];
+                    labelForException.Visible = true;
+                    labelForException.Text = "Ошибка!\nВ пути :\n"+thisImagePath +"\nНе был найден файл:\n" + imagesFileNames[imgIndex];
                 }
             }
                     
