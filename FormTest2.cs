@@ -258,15 +258,15 @@ namespace TerVer_project
 
             this.InitialWorkWithWord();
 
-            try
-            {
+           // try
+           // {
                 this.workWithTasksWordFile(countVariants);
                 ReplacePlaceholdersWithImages(imagesPaths);
-            }
-            catch (Exception ex)
-            {
-                Text = "Что-то произошло с Word файлом теста!";
-            }
+           // }
+           // catch (Exception ex)
+           // {
+            //    Text = "Что-то произошло с Word файлом теста!";
+           // }
 
             try
             {
@@ -396,13 +396,15 @@ private void InitialWorkWithWord()
                     rng.Find.ClearFormatting();
                     rng.Find.Replacement.ClearFormatting();
                 object matchWholeWord = true;
-                    
 
+                
                     
                         rng.Copy();
-                    
+                 
+                try
+                {
                     Word.InlineShape inlineShape = wordDoc.InlineShapes.AddPicture(imagesPaths[imgIndex], LinkToFile: false, SaveWithDocument: true);
-
+                
                     
                     inlineShape.Range.Copy();
 
@@ -417,7 +419,12 @@ private void InitialWorkWithWord()
                         inlineShape.Delete();
 
                         imgIndex++;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    string thisImagePath = imagesPaths[imgIndex];
+                }
+            }
                     
         }
 
