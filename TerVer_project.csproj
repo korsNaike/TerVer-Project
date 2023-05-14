@@ -98,7 +98,9 @@
 	  <EmbeddedResource Remove="Resources\1_A9.jpg" />
 	  <EmbeddedResource Remove="Resources\1_F10.jpg" />
 	  <EmbeddedResource Remove="Resources\1_F12.jpg" />
+	  <EmbeddedResource Remove="Resources\1_F13.gif" />
 	  <EmbeddedResource Remove="Resources\1_F13.jpg" />
+	  <EmbeddedResource Remove="Resources\1_F13.png" />
 	  <EmbeddedResource Remove="Resources\1_F9.jpg" />
 	  <EmbeddedResource Remove="Resources\1_Function.jpg" />
 	  <EmbeddedResource Remove="Resources\1_T11.jpg" />

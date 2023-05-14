@@ -103,6 +103,26 @@ namespace TerVer_Project_3_pop.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1_F131 {
+            get {
+                object obj = ResourceManager.GetObject("_1_F131", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1_F132 {
+            get {
+                object obj = ResourceManager.GetObject("_1_F132", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _1_F9 {
             get {
                 object obj = ResourceManager.GetObject("_1_F9", resourceCulture);

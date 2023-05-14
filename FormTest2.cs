@@ -203,7 +203,15 @@ namespace TerVer_project
 
             for (int i = 0; i < cntTheoryTasks; i++)
             {
-                int randIndexForTask = Task.rnd.Next(0, theoryTest.theoryTasks.Count);
+                int begRand;
+                if (cntTheoryTasks == 6) begRand = i * 8;
+                else begRand = 0;
+
+                int endRand;
+                if (cntTheoryTasks==6 && (begRand + 8 <= theoryTest.theoryTasks.Count)) endRand = begRand + 8;
+                else endRand = theoryTest.theoryTasks.Count;
+
+                int randIndexForTask = Task.rnd.Next(begRand, endRand);
                 string newTheoryTaskString = theoryTest.getNewTheoryTaskString(i, randIndexForTask);
 
                 List<string> imagesInTheoryTask = TheoryTest.GetImageFileNames(newTheoryTaskString);
@@ -680,6 +688,20 @@ private void InitialWorkWithWord()
             Task2 task2 = new Task2();
             Text = task2.cor_answ;
 
+            numericTheoryTasks.ValueChanged += (s, a) => { if (numericTheoryTasks.Value != 0) OffWarnings(); };
+            checkBoxTask1.CheckedChanged += (s, a) => { if (checkBoxTask1.Checked) OffWarnings(); };
+            checkBoxTask2.CheckedChanged += (s, a) => { if (checkBoxTask2.Checked) OffWarnings(); };
+            checkBoxTask3.CheckedChanged += (s, a) => { if (checkBoxTask3.Checked) OffWarnings(); };
+            checkBoxTask4.CheckedChanged += (s, a) => { if (checkBoxTask4.Checked) OffWarnings(); };
+            checkBoxTask5.CheckedChanged += (s, a) => { if (checkBoxTask5.Checked) OffWarnings(); };
+            checkBoxTask6.CheckedChanged += (s, a) => { if (checkBoxTask6.Checked) OffWarnings(); };
+            checkBoxTask7.CheckedChanged += (s, a) => { if (checkBoxTask7.Checked) OffWarnings(); };
+            checkBoxTask8.CheckedChanged += (s, a) => { if (checkBoxTask8.Checked) OffWarnings(); };
+            checkBoxTask9.CheckedChanged += (s, a) => { if (checkBoxTask9.Checked) OffWarnings(); };
+            checkBoxTask10.CheckedChanged += (s, a) => { if (checkBoxTask10.Checked) OffWarnings(); };
+            checkBoxTask11.CheckedChanged += (s, a) => { if (checkBoxTask11.Checked) OffWarnings(); };
+            checkBoxTask12.CheckedChanged += (s, a) => { if (checkBoxTask12.Checked) OffWarnings(); };
+            checkBoxTask13.CheckedChanged += (s, a) => { if (checkBoxTask13.Checked) OffWarnings(); };
             
         }
     }
