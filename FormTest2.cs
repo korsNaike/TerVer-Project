@@ -80,6 +80,8 @@ namespace TerVer_project
 
         const int numberOfTaskWithImagesAnswers= 6;
 
+        bool printTitle;
+
         private void OffWarnings()
         {
             labelNoTasks.Visible = false;
@@ -92,6 +94,7 @@ namespace TerVer_project
             OffWarnings();
             
             int countOfTheoryTasks= Convert.ToInt32(numericTheoryTasks.Value);
+            printTitle = checkBoxTitle.Checked;
 
             List<bool> practTaskList = new List<bool>();
             practTaskList.Add(checkBoxTask1.Checked);
@@ -151,10 +154,31 @@ namespace TerVer_project
 
 
             this.InitialWorkWithWord();
-            this.workWithTasksWordFile(countVariants);
+     
             List<string> imagesPaths = imagesFileNames.Select(imgName => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", imgName)).ToList();
-            ReplacePlaceholdersWithImages(imagesPaths);
-            this.workWithAnswersWordFile(countVariants);
+
+
+
+            try
+            {
+                this.workWithTasksWordFile(countVariants);
+                ReplacePlaceholdersWithImages(imagesPaths);
+            }
+            catch (Exception ex)
+            {
+                labelWarning.Visible = true;
+                labelWarning.Text = "Что-то пошло не так с Word\n файлом теста!";
+            }
+
+            try
+            {
+                this.workWithAnswersWordFile(countVariants);
+            }
+            catch (Exception ex)
+            {
+                labelWarning.Visible = true;
+                labelWarning.Text = "Что-то пошло не так с Word\n файлом ответов!";
+            }
 
 
 
@@ -246,8 +270,8 @@ namespace TerVer_project
            
 
             int countVariants = Convert.ToInt32(numericKolVariants.Value);
+            printTitle = checkBoxTitle.Checked;
 
-           
 
             for (int i = 0; i < countVariants; i++)
             {
@@ -374,9 +398,14 @@ private void InitialWorkWithWord()
 
             this.setStylesForWord();
 
-            this.PrintTitleInWord();
+            int numOfParagraph;
 
-            int numOfParagraph = 1;
+            if (printTitle)
+            {
+                this.PrintTitleInWord();
+                numOfParagraph = 1;
+            }
+            else numOfParagraph = 0;
 
             for (int i = 0; i < countVariants; i++)
             {
@@ -400,7 +429,7 @@ private void InitialWorkWithWord()
                 }
                 
                 numOfParagraph++;
-                CreatePageBreak(numOfParagraph);
+               if(i+1!=countVariants) CreatePageBreak(numOfParagraph);
             }
 
             
