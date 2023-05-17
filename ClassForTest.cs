@@ -117,20 +117,6 @@ namespace TerVer_project
                 else answersString += ";\t";
             }
 
-            if (answersString.Length>80)
-            {
-                answersString = "";
-                for (int i = 0; i < this.answers.Count; i++)
-                {
-                    answersString += letterByInd(i) + " " + this.answers[i];
-                    if (i == this.answers.Count - 1) answersString += ".";
-                    else answersString += ";";
-
-                    if (i == 1) answersString += "\v";
-                    else answersString += "\t";
-                }
-            }
-
             return answersString;
         }
 
@@ -140,9 +126,7 @@ namespace TerVer_project
 
             for (int i = 0; i < this.answers.Count; i++)
             {
-                answersString += letterByInd(i) + " placeForImage";
-                if (i == 1) answersString += "\v";
-                else answersString += "\t";
+                answersString += letterByInd(i) + " placeForImage \t\t";
                 
             }
 

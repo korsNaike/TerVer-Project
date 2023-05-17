@@ -64,14 +64,13 @@ namespace TerVer_project
             this.buttonSelectAllTasks = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxGenerate = new System.Windows.Forms.GroupBox();
-            this.labelNoTasks = new System.Windows.Forms.Label();
             this.buttonGenerateFull = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.numericKolVariants = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.labelForException = new System.Windows.Forms.Label();
             this.labelWarning = new System.Windows.Forms.Label();
-            this.checkBoxTitle = new System.Windows.Forms.CheckBox();
+            this.labelNoTasks = new System.Windows.Forms.Label();
             this.groupBoxZadaniya.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTheoryTasks)).BeginInit();
             this.groupBoxGenerate.SuspendLayout();
@@ -538,7 +537,7 @@ namespace TerVer_project
             // 
             // groupBoxGenerate
             // 
-            this.groupBoxGenerate.Controls.Add(this.checkBoxTitle);
+            this.groupBoxGenerate.Controls.Add(this.labelNoTasks);
             this.groupBoxGenerate.Controls.Add(this.buttonGenerateFull);
             this.groupBoxGenerate.Controls.Add(this.label2);
             this.groupBoxGenerate.Controls.Add(this.numericKolVariants);
@@ -551,18 +550,6 @@ namespace TerVer_project
             this.groupBoxGenerate.TabIndex = 1;
             this.groupBoxGenerate.TabStop = false;
             this.groupBoxGenerate.Text = "Генерация файла";
-            // 
-            // labelNoTasks
-            // 
-            this.labelNoTasks.AutoSize = true;
-            this.labelNoTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelNoTasks.ForeColor = System.Drawing.Color.Red;
-            this.labelNoTasks.Location = new System.Drawing.Point(512, 331);
-            this.labelNoTasks.Name = "labelNoTasks";
-            this.labelNoTasks.Size = new System.Drawing.Size(386, 31);
-            this.labelNoTasks.TabIndex = 4;
-            this.labelNoTasks.Text = "Вы не выделили ни одного задания";
-            this.labelNoTasks.Visible = false;
             // 
             // buttonGenerateFull
             // 
@@ -583,7 +570,7 @@ namespace TerVer_project
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(66, 201);
+            this.label2.Location = new System.Drawing.Point(6, 199);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(186, 28);
             this.label2.TabIndex = 31;
@@ -593,7 +580,7 @@ namespace TerVer_project
             // 
             this.numericKolVariants.Cursor = System.Windows.Forms.Cursors.Hand;
             this.numericKolVariants.Font = new System.Drawing.Font("Bahnschrift Light Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numericKolVariants.Location = new System.Drawing.Point(11, 199);
+            this.numericKolVariants.Location = new System.Drawing.Point(217, 199);
             this.numericKolVariants.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.numericKolVariants.Minimum = new decimal(new int[] {
             1,
@@ -628,7 +615,7 @@ namespace TerVer_project
             this.labelForException.AutoSize = true;
             this.labelForException.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelForException.ForeColor = System.Drawing.Color.Red;
-            this.labelForException.Location = new System.Drawing.Point(506, 503);
+            this.labelForException.Location = new System.Drawing.Point(506, 399);
             this.labelForException.Name = "labelForException";
             this.labelForException.Size = new System.Drawing.Size(234, 31);
             this.labelForException.TabIndex = 2;
@@ -640,30 +627,30 @@ namespace TerVer_project
             this.labelWarning.AutoSize = true;
             this.labelWarning.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelWarning.ForeColor = System.Drawing.Color.Red;
-            this.labelWarning.Location = new System.Drawing.Point(506, 430);
+            this.labelWarning.Location = new System.Drawing.Point(506, 331);
             this.labelWarning.Name = "labelWarning";
             this.labelWarning.Size = new System.Drawing.Size(304, 62);
             this.labelWarning.TabIndex = 3;
             this.labelWarning.Text = "Что-то пошло не так с Word\r\nфайлом теста!";
             this.labelWarning.Visible = false;
             // 
-            // checkBoxTitle
+            // labelNoTasks
             // 
-            this.checkBoxTitle.AutoSize = true;
-            this.checkBoxTitle.Font = new System.Drawing.Font("Bahnschrift Condensed", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.checkBoxTitle.Location = new System.Drawing.Point(11, 241);
-            this.checkBoxTitle.Name = "checkBoxTitle";
-            this.checkBoxTitle.Size = new System.Drawing.Size(301, 60);
-            this.checkBoxTitle.TabIndex = 33;
-            this.checkBoxTitle.Text = " Вывести заголовок в начало теста\r\n(Тест№2 + дата и время генерации)";
-            this.checkBoxTitle.UseVisualStyleBackColor = true;
+            this.labelNoTasks.AutoSize = true;
+            this.labelNoTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelNoTasks.ForeColor = System.Drawing.Color.Red;
+            this.labelNoTasks.Location = new System.Drawing.Point(7, 248);
+            this.labelNoTasks.Name = "labelNoTasks";
+            this.labelNoTasks.Size = new System.Drawing.Size(386, 31);
+            this.labelNoTasks.TabIndex = 4;
+            this.labelNoTasks.Text = "Вы не выделили ни одного задания";
+            this.labelNoTasks.Visible = false;
             // 
             // FormTest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 891);
-            this.Controls.Add(this.labelNoTasks);
             this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.labelForException);
             this.Controls.Add(this.groupBoxGenerate);
@@ -726,7 +713,6 @@ namespace TerVer_project
         private System.Windows.Forms.Label labelForException;
         private System.Windows.Forms.Label labelWarning;
         private System.Windows.Forms.Label labelNoTasks;
-        private System.Windows.Forms.CheckBox checkBoxTitle;
     }
 }
 
