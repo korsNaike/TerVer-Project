@@ -14,6 +14,7 @@ then questions will be generated in absolutely random order.
 
               <--Developers-->
 --Architecture, main development:Kirill Grinev
+
 ----Writing tasks, storing data:Andreev Alexey
 
 ********************************************************************************************
@@ -33,4 +34,5 @@ then questions will be generated in absolutely random order.
 
               <--Разработчики-->
 --Архитектура,основная разработка:Гринев Кирилл (korsNaike)
+
 --Написание задач, хранение данных:Андреев Алесей
