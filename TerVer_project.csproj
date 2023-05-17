@@ -144,4 +144,12 @@
 	  <EmbeddedResource Remove="Resources\iconForTerVer.ico" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Include="bin\Debug\netcoreapp3.1\TheoryTerVer.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="bin\Debug\netcoreapp3.1\PracticeTerVer.json" />
+	</ItemGroup>
+
 </Project>

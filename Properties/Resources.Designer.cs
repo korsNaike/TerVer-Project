@@ -719,5 +719,25 @@ namespace TerVer_Project_3_pop.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] PracticeTerVer {
+            get {
+                object obj = ResourceManager.GetObject("PracticeTerVer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] TheoryTerVer {
+            get {
+                object obj = ResourceManager.GetObject("TheoryTerVer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
